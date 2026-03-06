@@ -7,13 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script>
-    (async () => {
-      const auth0Client = await createAuth0Client({ domain: "dev-340hbcgnjubvwb85.uk.auth0.com", clientId: "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v", authorizationParams: { redirect_uri: window.location.href } });
+    window.addEventListener("DOMContentLoaded", async () => {
+      const auth0Client = await createAuth0Client({ domain: "dev-340hbcgnjubvwb85.uk.auth0.com", clientId: "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v", authorizationParams: { redirect_uri: window.location.origin } });
       if (location.search.includes("code=")) { await auth0Client.handleRedirectCallback(); window.history.replaceState({}, document.title, window.location.pathname); }
       if (!await auth0Client.isAuthenticated()) { await auth0Client.loginWithRedirect(); return; }
       document.getElementById("app").style.display = "block";
-      document.getElementById("logoutBtn").addEventListener("click", () => auth0Client.logout({ logoutParams: { returnTo: "https://sessions.vyvehealth.co.uk" } }));
-    })();
+      document.getElementById("logoutBtn").addEventListener("click", () => auth0Client.logout({ logoutParams: { returnTo: window.location.origin } }));
+    });
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
