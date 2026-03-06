@@ -7,14 +7,54 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script>
+    function vyveRevealApp(message) {
+      const app = document.getElementById('app');
+      if (app) app.style.display = 'block';
+      if (message) {
+        let note = document.getElementById('vyveNotice');
+        if (!note) {
+          note = document.createElement('div');
+          note.id = 'vyveNotice';
+          note.style.cssText = 'position:sticky;top:0;z-index:9999;padding:10px 14px;background:#fff3cd;color:#5c4400;font:14px/1.4 Arial,sans-serif;border-bottom:1px solid #e6d38a';
+          document.body.prepend(note);
+        }
+        note.textContent = message;
+      }
+    }
     window.addEventListener("DOMContentLoaded", async () => {
-      const auth0Client = await createAuth0Client({ domain: "dev-340hbcgnjubvwb85.uk.auth0.com", clientId: "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v", authorizationParams: { redirect_uri: window.location.origin } });
-      if (location.search.includes("code=")) { await auth0Client.handleRedirectCallback(); window.history.replaceState({}, document.title, window.location.pathname); }
-      if (!await auth0Client.isAuthenticated()) { await auth0Client.loginWithRedirect(); return; }
-      document.getElementById("app").style.display = "block";
-      document.getElementById("logoutBtn").addEventListener("click", () => auth0Client.logout({ logoutParams: { returnTo: window.location.origin } }));
+      try {
+        if (typeof createAuth0Client !== 'function') {
+          vyveRevealApp('Preview mode: Auth0 did not load, so this page has been shown without login.');
+          return;
+        }
+        const auth0Client = await createAuth0Client({
+          domain: "dev-340hbcgnjubvwb85.uk.auth0.com",
+          clientId: "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v",
+          authorizationParams: { redirect_uri: window.location.origin }
+        });
+        if (location.search.includes('code=')) {
+          await auth0Client.handleRedirectCallback();
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        const isAuthenticated = await auth0Client.isAuthenticated();
+        if (!isAuthenticated) { await auth0Client.loginWithRedirect(); return; }
+        vyveRevealApp();
+        const user = await auth0Client.getUser();
+        const nameEl = document.getElementById('memberName');
+        if (nameEl && user) nameEl.textContent = user.given_name || user.name || 'Member';
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', () => {
+            auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+          });
+        }
+      } catch (e) {
+        console.error('VYVE Auth0 init failed:', e);
+        vyveRevealApp('Preview mode: Auth0 failed to initialise, so this page has been shown without login.');
+      }
     });
   </script>
+
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}
