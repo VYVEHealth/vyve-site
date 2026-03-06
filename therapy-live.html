@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VYVE — Education & Experts (Live)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+  <script>
+    (async () => {
+      const auth0Client = await createAuth0Client({ domain: "dev-340hbcgnjubvwb85.uk.auth0.com", clientId: "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v", authorizationParams: { redirect_uri: window.location.href } });
+      if (location.search.includes("code=")) { await auth0Client.handleRedirectCallback(); window.history.replaceState({}, document.title, window.location.pathname); }
+      if (!await auth0Client.isAuthenticated()) { await auth0Client.loginWithRedirect(); return; }
+      document.getElementById("app").style.display = "block";
+      document.getElementById("logoutBtn").addEventListener("click", () => auth0Client.logout({ logoutParams: { returnTo: "https://sessions.vyvehealth.co.uk" } }));
+    })();
+  </script>
+  <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}#app{display:none}nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,26,26,0.96);backdrop-filter:blur(8px);z-index:10}.logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--accent)}.nav-right{display:flex;align-items:center;gap:1rem}.back-link{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}.back-link:hover{color:var(--accent)}.logout-btn{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:0.3rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s}.logout-btn:hover{border-color:var(--accent);color:var(--accent)}.page-hero{padding:2.5rem 2rem 2rem;background:linear-gradient(135deg,var(--dark) 0%,#0d2020 100%);border-bottom:1px solid var(--border)}.eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);letter-spacing:0.04em;line-height:0.9;color:var(--fg)}.live-badge{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.8rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#ff6060}.live-dot{width:7px;height:7px;border-radius:50%;background:#ff4040;animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}.player-section{padding:2rem;border-bottom:1px solid var(--border)}.player-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#000}.coming-soon{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:var(--dark)}.cs-icon{font-size:3rem}.cs-text{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.08em;color:var(--muted)}.cs-sub{font-size:0.78rem;color:var(--muted);text-align:center;max-width:280px;line-height:1.6}.info-strip{padding:1.2rem 2rem;background:var(--dark);border-bottom:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap}.info-item{display:flex;flex-direction:column;gap:0.2rem}.info-label{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}.info-val{font-size:0.85rem;color:var(--fg);font-weight:500}.replay-link-section{padding:1.5rem 2rem;border-bottom:1px solid var(--border)}.replay-link{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.5rem 1rem;border-radius:100px;transition:all 0.2s}.replay-link:hover{border-color:var(--accent);color:var(--accent)}footer{padding:1.2rem 2rem;background:var(--dark)}footer span{font-size:0.7rem;color:var(--muted)}</style>
+</head>
+<body>
+<div id="app">
+  <nav><span class="logo">VYVE</span><div class="nav-right"><a href="https://sessions.vyvehealth.co.uk/sessions.html" class="back-link">← All Sessions</a><button class="logout-btn" id="logoutBtn">Sign out</button></div></nav>
+  <div class="page-hero"><div class="eyebrow">Live Session</div><div class="page-title">📚 Education & Experts</div><div class="live-badge"><span class="live-dot"></span> Stream goes live at session time</div></div>
+  <div class="player-section"><div class="player-wrap"><div class="coming-soon"><div class="cs-icon">📚</div><div class="cs-text">Coming Soon</div><div class="cs-sub">The live stream will appear here when the session begins. Check the calendar for session times.</div></div></div></div>
+  <div class="info-strip"><div class="info-item"><span class="info-label">Session</span><span class="info-val">Education & Experts</span></div><div class="info-item"><span class="info-label">Format</span><span class="info-val">Live Stream</span></div><div class="info-item"><span class="info-label">Access</span><span class="info-val">Members Only</span></div></div>
+  <div class="replay-link-section"><a href="https://sessions.vyvehealth.co.uk/education-rp.html" class="replay-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> View past replays</a></div>
+  <footer><span>© 2026 VYVE Health</span></footer>
+</div>
+</body>
+</html>
