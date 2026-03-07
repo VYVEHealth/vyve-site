@@ -53,21 +53,12 @@ function vyveCapturePageView(user) {
 
 function vyveLoadAuth0Sdk() {
   return new Promise((resolve, reject) => {
-    // v2 CDN exposes via window.auth0 namespace
     if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') {
       resolve(); return;
     }
     const script = document.createElement('script');
     script.src = VYVE_AUTH0_SDK;
-    script.onload = () => {
-      setTimeout(() => {
-        if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') {
-          resolve();
-        } else {
-          reject(new Error('Auth0 SDK loaded but window.auth0.createAuth0Client not found'));
-        }
-      }, 50);
-    };
+    script.onload = () => resolve();
     script.onerror = () => reject(new Error('Auth0 SDK failed to load'));
     document.head.appendChild(script);
   });
@@ -76,6 +67,10 @@ function vyveLoadAuth0Sdk() {
 async function vyveInitAuth() {
   try {
     await vyveLoadAuth0Sdk();
+
+    if (!window.auth0 || typeof window.auth0.createAuth0Client !== 'function') {
+      throw new Error('createAuth0Client is not available');
+    }
 
     vyveAuth0Client = await window.auth0.createAuth0Client({
       domain: VYVE_AUTH0_DOMAIN,
