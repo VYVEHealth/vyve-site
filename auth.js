@@ -1,6 +1,6 @@
 const VYVE_AUTH0_DOMAIN = "dev-340hbcgnjubvwb85.uk.auth0.com";
 const VYVE_AUTH0_CLIENT_ID = "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v";
-const VYVE_AUTH0_SDK = "https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2/dist/auth0-spa-js.production.js";
+const VYVE_AUTH0_SDK = "https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js";
 const VYVE_RETURN_TO_KEY = "vyve_return_to";
 
 let vyveAuth0Client = null;
@@ -51,21 +51,21 @@ function vyveCapturePageView(user) {
   }
 }
 
-function vyveGetCreateClient() {
-  if (typeof window.createAuth0Client === 'function') return window.createAuth0Client;
-  if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') return window.auth0.createAuth0Client;
-  return null;
-}
-
 function vyveLoadAuth0Sdk() {
   return new Promise((resolve, reject) => {
-    if (vyveGetCreateClient()) { resolve(); return; }
+    // v2 CDN exposes via window.auth0 namespace
+    if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') {
+      resolve(); return;
+    }
     const script = document.createElement('script');
     script.src = VYVE_AUTH0_SDK;
     script.onload = () => {
       setTimeout(() => {
-        if (vyveGetCreateClient()) resolve();
-        else reject(new Error('Auth0 SDK loaded but createAuth0Client not found'));
+        if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') {
+          resolve();
+        } else {
+          reject(new Error('Auth0 SDK loaded but window.auth0.createAuth0Client not found'));
+        }
       }, 50);
     };
     script.onerror = () => reject(new Error('Auth0 SDK failed to load'));
@@ -77,10 +77,7 @@ async function vyveInitAuth() {
   try {
     await vyveLoadAuth0Sdk();
 
-    const createAuth0Client = vyveGetCreateClient();
-    if (!createAuth0Client) throw new Error('createAuth0Client is not available');
-
-    vyveAuth0Client = await createAuth0Client({
+    vyveAuth0Client = await window.auth0.createAuth0Client({
       domain: VYVE_AUTH0_DOMAIN,
       clientId: VYVE_AUTH0_CLIENT_ID,
       authorizationParams: { redirect_uri: window.location.origin },
