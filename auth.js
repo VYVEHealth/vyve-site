@@ -1,6 +1,6 @@
 const VYVE_AUTH0_DOMAIN = "dev-340hbcgnjubvwb85.uk.auth0.com";
 const VYVE_AUTH0_CLIENT_ID = "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v";
-const VYVE_AUTH0_SDK = "https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js";
+const VYVE_AUTH0_SDK = "https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js";
 const VYVE_RETURN_TO_KEY = "vyve_return_to";
 
 let vyveAuth0Client = null;
