@@ -93,4 +93,120 @@
     <div class="hub-hero-left">
       <div class="hub-eyebrow">Member Sessions</div>
       <div class="hub-heading">Your<br>Programme</div>
-      <p class="hub-sub">All
+      <p class="hub-sub">All your live sessions in one place. Bookmark this page — every session links from here.</p>
+    </div>
+    <div class="hub-stats">
+      <div class="hub-stat">
+        <div class="hub-stat-num">7</div>
+        <div class="hub-stat-label">Session types</div>
+      </div>
+      <div class="hub-stat">
+        <div class="hub-stat-num" id="todayCount">0</div>
+        <div class="hub-stat-label">On today</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-up">
+    <span class="next-up-dot"></span>
+    <span class="next-up-label">Next up</span>
+    <span class="next-up-session" id="nextSession">—</span>
+    <span class="next-up-time" id="nextTime">--:--:--</span>
+  </div>
+
+  <div class="hub-filter">
+    <button class="filter-pill active" onclick="filterCards(this,'all')">All</button>
+    <button class="filter-pill" onclick="filterCards(this,'daily')">Daily</button>
+    <button class="filter-pill" onclick="filterCards(this,'weekly')">Weekly</button>
+    <button class="filter-pill" onclick="filterCards(this,'monthly')">Monthly</button>
+  </div>
+
+  <div class="hub-grid" id="hubGrid"></div>
+
+  <div class="hub-footer">
+    <span class="hub-footer-text">© 2026 VYVE Health</span>
+    <div class="hub-footer-links">
+      <a href="https://vyvehealth.co.uk/privacy">Privacy</a>
+      <a href="https://vyvehealth.co.uk/support">Support</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE = 'https://sessions.vyvehealth.co.uk';
+const SESSIONS = [
+  { id:'yoga', title:'Yoga, Pilates & Stretch', icon:'🧘', freq:'daily', freqLabel:'Daily · 6:00 AM', scheduleDays:[0,1,2,3,4,5,6], sessionHour:6, sessionMin:0, duration:45, tags:['Movement','All levels'], liveUrl:`${BASE}/yoga-live.html`, replayUrl:`${BASE}/yoga-rp.html` },
+  { id:'mindfulness', title:'Mindfulness & Mindset', icon:'🧠', freq:'daily', freqLabel:'Daily · 8:00 AM', scheduleDays:[0,1,2,3,4,5,6], sessionHour:8, sessionMin:0, duration:20, tags:['Mental Wellbeing','All levels'], liveUrl:`${BASE}/mindfulness-live.html`, replayUrl:`${BASE}/mindfulness-rp.html` },
+  { id:'workouts', title:'Workouts', icon:'💪', freq:'daily', freqLabel:'Daily · 7:30 AM', scheduleDays:[0,1,2,3,4,5,6], sessionHour:7, sessionMin:30, duration:50, tags:['Exercise','All levels'], liveUrl:`${BASE}/workouts-live.html`, replayUrl:`${BASE}/workouts-rp.html` },
+  { id:'checkin', title:'Weekly Check-In', icon:'✅', freq:'weekly', freqLabel:'Every Monday · 9:00 AM', scheduleDays:[1], sessionHour:9, sessionMin:0, duration:30, tags:['Check-In','All members'], liveUrl:`${BASE}/checkin-live.html`, replayUrl:`${BASE}/checkin-rp.html` },
+  { id:'therapy', title:'Group Therapy', icon:'💬', freq:'weekly', freqLabel:'Every Wednesday · 12:00 PM', scheduleDays:[3], sessionHour:12, sessionMin:0, duration:60, tags:['Therapy','All members'], liveUrl:`${BASE}/therapy-live.html`, replayUrl:`${BASE}/therapy-rp.html` },
+  { id:'events', title:'Events & Run Club', icon:'🏃', freq:'monthly', freqLabel:'Monthly · varies', scheduleDays:[6], sessionHour:9, sessionMin:0, duration:60, tags:['Community','All members'], liveUrl:`${BASE}/events-live.html`, replayUrl:`${BASE}/events-rp.html` },
+  { id:'education', title:'Education & Experts', icon:'📚', freq:'monthly', freqLabel:'Monthly · varies', scheduleDays:[4], sessionHour:13, sessionMin:0, duration:60, tags:['Education','All members'], liveUrl:`${BASE}/education-live.html`, replayUrl:`${BASE}/education-rp.html` },
+];
+function getNextOccurrence(s) {
+  const now = new Date();
+  for (let d = 0; d <= 7; d++) {
+    const c = new Date(now); c.setDate(now.getDate()+d); c.setHours(s.sessionHour,s.sessionMin,0,0);
+    if (c > now && s.scheduleDays.includes(c.getDay())) return c;
+  }
+  return null;
+}
+function formatCountdown(ms) {
+  if (ms<=0) return '00:00:00';
+  return [Math.floor(ms/3600000),Math.floor((ms%3600000)/60000),Math.floor((ms%60000)/1000)].map(n=>String(n).padStart(2,'0')).join(':');
+}
+function isLiveNow(s) {
+  const now = new Date(), t = now.getHours()*60+now.getMinutes(), st = s.sessionHour*60+s.sessionMin;
+  return s.scheduleDays.includes(now.getDay()) && t>=st && t<st+s.duration;
+}
+function buildCards() {
+  const grid = document.getElementById('hubGrid'); grid.innerHTML='';
+  SESSIONS.forEach(s => {
+    const next=getNextOccurrence(s), live=isLiveNow(s);
+    const nextDay=next?next.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}):'—';
+    const card=document.createElement('div');
+    card.className='session-card'; card.dataset.freq=s.freq;
+    card.setAttribute('onclick',`window.location='${s.liveUrl}'`);
+    card.innerHTML=`
+      <div class="card-top">
+        <div class="card-icon">${s.icon}</div>
+        <div class="card-status ${live?'live-status':''}"><span class="status-dot ${live?'live':''}"></span>${live?'Live Now':'Offline'}</div>
+      </div>
+      <div class="card-title">${s.title}</div>
+      <div class="card-freq">${s.freqLabel}</div>
+      <div class="card-countdown">
+        <div><div class="countdown-label">${live?'Live now':'Starts in'}</div><div class="countdown-time" id="timer-${s.id}">${live?'LIVE':formatCountdown(next?next-new Date():0)}</div></div>
+        <div class="countdown-next">${nextDay}</div>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags">${s.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}</div>
+        <span class="card-arrow">→</span>
+      </div>
+      <a href="${s.replayUrl}" class="card-replay" onclick="event.stopPropagation()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        View replays
+      </a>`;
+    grid.appendChild(card);
+  });
+}
+function tick() {
+  const now=new Date(); let nearMs=Infinity, nearS=null;
+  SESSIONS.forEach(s => {
+    const live=isLiveNow(s), next=getNextOccurrence(s), el=document.getElementById('timer-'+s.id);
+    if(!el) return;
+    if(live){el.textContent='LIVE';el.style.color='#ff6060';}
+    else if(next){const ms=next-now;el.textContent=formatCountdown(ms);el.style.color='';if(ms<nearMs){nearMs=ms;nearS=s;}}
+  });
+  if(nearS){document.getElementById('nextSession').textContent=nearS.title;document.getElementById('nextTime').textContent=formatCountdown(nearMs);}
+}
+function filterCards(btn,val) {
+  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.querySelectorAll('.session-card').forEach(c=>{c.style.display=(val==='all'||c.dataset.freq===val)?'block':'none';});
+}
+const now=new Date();
+document.getElementById('hubDate').textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+document.getElementById('todayCount').textContent=SESSIONS.filter(s=>s.scheduleDays.includes(now.getDay())).length;
+buildCards(); tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
