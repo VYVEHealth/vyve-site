@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VYVE — Weekly Check-In (Replays)</title>
+  <title>VYVE — Group Therapy (Replays)</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script src="auth.js" defer></script>
 
@@ -12,19 +12,20 @@
 <body>
 <div id="app">
   <nav><span class="logo">VYVE</span><div class="nav-right"><a href="sessions.html" class="back-link">← All Sessions</a><button class="logout-btn" id="logoutBtn">Sign out</button></div></nav>
-  <div class="page-hero"><div class="eyebrow">Session Replays</div><div class="page-title">✅ Weekly Check-In</div><p class="page-sub">Missed a session? Watch back at any time.</p></div>
+  <div class="page-hero"><div class="eyebrow">Session Replays</div><div class="page-title">💬 Group Therapy</div><p class="page-sub">Missed a session? Watch back at any time.</p></div>
   <div class="player-section">
-    <div class="player-wrap" id="mainPlayer"><div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;background:var(--dark)"><div style="font-size:2rem">✅</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--muted);letter-spacing:0.06em">Select a video below</div></div></div>
+    <div class="player-wrap" id="mainPlayer"><div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;background:var(--dark)"><div style="font-size:2rem">💬</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--muted);letter-spacing:0.06em">Select a video below</div></div></div>
     <div id="videoContainer"><div class="loading-state"><div class="loading-text">Loading replays...</div></div></div>
   </div>
-  <div class="live-link-section"><a href="checkin-live.html" class="live-link"><span style="width:7px;height:7px;border-radius:50%;background:#ff4040;display:inline-block"></span> Join next live session</a></div>
+  <div class="live-link-section"><a href="therapy-live.html" class="live-link"><span style="width:7px;height:7px;border-radius:50%;background:#ff4040;display:inline-block"></span> Join next live session</a></div>
   <footer><span>© 2026 VYVE Health</span></footer>
 </div>
 <script>
 (function() {
-  var PLAYLIST_ID = 'PLyaCafiXVssiL0asHJhhwTE-78PX7Ut4m';
+  var SESSION_TYPE = 'Therapy & Wellbeing';
+  var PLAYLIST_ID = 'PLyaCafiXVssjAUHO8SN5l9K1zqlNWVlTU';
   var API_KEY = 'AIzaSyBSahbwKcchqnCeILJRn-ePYL-tU0Q05k8';
-  var ICON = '✅';
+  var ICON = '💬';
   function loadVideos() {
     var container = document.getElementById('videoContainer');
     fetch('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=' + PLAYLIST_ID + '&key=' + API_KEY)
@@ -43,14 +44,53 @@
           var btn = document.createElement('button'); btn.className = 'video-thumb';
           btn.innerHTML = '<img class="thumb-img" src="' + thumb + '" alt="' + title + '" loading="lazy"/><div class="thumb-title">' + title + '</div><div class="thumb-date">' + date + '</div>';
           btn.onclick = function() {
-            document.getElementById('mainPlayer').innerHTML = '<iframe src="https://www.youtube.com/embed/' + vid + '?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>';
+            // Log watch time for previously playing video
+            if (window._vyveStopWatch) { window._vyveStopWatch(); window._vyveStopWatch = null; }
+
+            var startTime = Date.now();
+            var capturedTitle = title;
+            var capturedVid = vid;
+
+            document.getElementById('mainPlayer').innerHTML =
+              '<iframe src="https://www.youtube.com/embed/' + vid +
+              '?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen ' +
+              'style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>';
             document.getElementById('mainPlayer').scrollIntoView({behavior:'smooth'});
+
+            // Track replay click in PostHog
+            if (window.posthog && window.vyveCurrentUser) {
+              posthog.capture('replay_video_clicked', {
+                email: window.vyveCurrentUser.email,
+                session_type: SESSION_TYPE,
+                video_title: capturedTitle,
+                date: new Date().toISOString()
+              });
+            }
+
+            // Watch time tracker — fires on page leave or next video click
+            function logWatchTime() {
+              var minutes = Math.round((Date.now() - startTime) / 60000);
+              if (minutes < 1) minutes = 1; // minimum 1 min if they clicked
+              if (window.posthog && window.vyveCurrentUser) {
+                posthog.capture('replay_watched', {
+                  email: window.vyveCurrentUser.email,
+                  session_type: SESSION_TYPE,
+                  video_title: capturedTitle,
+                  minutes_watched: minutes,
+                  date: new Date().toISOString()
+                });
+              }
+            }
+
+            window._vyveStopWatch = logWatchTime;
+            window.addEventListener('beforeunload', logWatchTime, {once: true});
           };
           grid.appendChild(btn);
         });
         container.innerHTML = ''; container.appendChild(grid);
       })
       .catch(function() {
+  var SESSION_TYPE = 'Therapy & Wellbeing';
         container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + ICON + '</div><div class="empty-text">No replays yet</div><div class="empty-sub">Sessions will appear here after they go live.</div></div>';
       });
   }
