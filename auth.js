@@ -11,7 +11,7 @@ posthog.init('phc_8gekeZglc1HBDu3d9kMuqOuRWn6HIChhnaiQi6uvonl', {
 
 const VYVE_AUTH0_DOMAIN    = "dev-340hbcgnjubvwb85.uk.auth0.com";
 const VYVE_AUTH0_CLIENT_ID = "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v";
-const VYVE_AUTH0_SDK       = "https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js";
+const VYVE_AUTH0_SDK       = "https://cdn.auth0.com/js/auth0-spa-js/2.0.3/auth0-spa-js.production.js";
 const VYVE_RETURN_TO_KEY   = "vyve_return_to";
 
 let vyveAuth0Client = null;
@@ -89,12 +89,15 @@ function vyveCapturePageView(user) {
 
 function vyveLoadAuth0Sdk() {
   return new Promise((resolve, reject) => {
-    if (typeof window.createAuth0Client === 'function') { resolve(); return; }
+    // ✅ FIXED: check window.auth0.createAuth0Client (v2 location)
+    if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') { resolve(); return; }
     const existing = document.querySelector(`script[src="${VYVE_AUTH0_SDK}"]`);
     if (existing) {
       existing.addEventListener('load', () => resolve(), { once: true });
       existing.addEventListener('error', () => reject(new Error('Auth0 SDK failed to load')), { once: true });
-      setTimeout(() => { if (typeof window.createAuth0Client === 'function') resolve(); }, 1500);
+      setTimeout(() => {
+        if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') resolve();
+      }, 1500);
       return;
     }
     const script = document.createElement('script');
@@ -108,15 +111,19 @@ function vyveLoadAuth0Sdk() {
 async function vyveInitAuth() {
   try {
     await vyveLoadAuth0Sdk();
-    if (typeof window.createAuth0Client !== 'function') {
+
+    // ✅ FIXED: use window.auth0.createAuth0Client not window.createAuth0Client
+    if (!window.auth0 || typeof window.auth0.createAuth0Client !== 'function') {
       throw new Error('createAuth0Client is not available');
     }
-    vyveAuth0Client = await createAuth0Client({
+
+    vyveAuth0Client = await window.auth0.createAuth0Client({
       domain: VYVE_AUTH0_DOMAIN,
       clientId: VYVE_AUTH0_CLIENT_ID,
       authorizationParams: { redirect_uri: window.location.origin },
       cacheLocation: 'localstorage'
     });
+
     const params = new URLSearchParams(window.location.search);
     if (params.has('code') && params.has('state')) {
       await vyveAuth0Client.handleRedirectCallback();
@@ -129,18 +136,21 @@ async function vyveInitAuth() {
       }
       sessionStorage.removeItem(VYVE_RETURN_TO_KEY);
     }
+
     const isAuthenticated = await vyveAuth0Client.isAuthenticated();
     if (!isAuthenticated) {
       sessionStorage.setItem(VYVE_RETURN_TO_KEY, window.location.href);
       await vyveAuth0Client.loginWithRedirect();
       return;
     }
+
     const user = await vyveAuth0Client.getUser();
     window.vyveCurrentUser = user;
     vyveSetMemberName(user);
     vyveBindLogout();
     vyveRevealApp();
     vyveCapturePageView(user);
+
   } catch (error) {
     console.error('VYVE Auth initialisation failed:', error);
     vyveRevealApp('Preview mode: Auth0 failed to initialise, so this page has been shown without login.');
