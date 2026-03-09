@@ -1,22 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VYVE — Education & Experts (Live)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-  <script src="auth.js" defer></script>
+/* ============================================================
+   VYVE Auth + PostHog Tracking
+   PostHog project: eu.i.posthog.com
+   ============================================================ */
 
-<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}#app{display:none}nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,26,26,0.96);backdrop-filter:blur(8px);z-index:10}.logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--accent)}.nav-right{display:flex;align-items:center;gap:1rem}.back-link{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}.back-link:hover{color:var(--accent)}.logout-btn{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:0.3rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s}.logout-btn:hover{border-color:var(--accent);color:var(--accent)}.page-hero{padding:2.5rem 2rem 2rem;background:linear-gradient(135deg,var(--dark) 0%,#0d2020 100%);border-bottom:1px solid var(--border)}.eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);letter-spacing:0.04em;line-height:0.9;color:var(--fg)}.live-badge{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.8rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#ff6060}.live-dot{width:7px;height:7px;border-radius:50%;background:#ff4040;animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}.player-section{padding:2rem;border-bottom:1px solid var(--border)}.player-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#000}.coming-soon{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:var(--dark)}.cs-icon{font-size:3rem}.cs-text{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.08em;color:var(--muted)}.cs-sub{font-size:0.78rem;color:var(--muted);text-align:center;max-width:280px;line-height:1.6}.info-strip{padding:1.2rem 2rem;background:var(--dark);border-bottom:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap}.info-item{display:flex;flex-direction:column;gap:0.2rem}.info-label{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}.info-val{font-size:0.85rem;color:var(--fg);font-weight:500}.replay-link-section{padding:1.5rem 2rem;border-bottom:1px solid var(--border)}.replay-link{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.5rem 1rem;border-radius:100px;transition:all 0.2s}.replay-link:hover{border-color:var(--accent);color:var(--accent)}footer{padding:1.2rem 2rem;background:var(--dark)}footer span{font-size:0.7rem;color:var(--muted)}</style>
-</head>
-<body>
-<div id="app">
-  <nav><span class="logo">VYVE</span><div class="nav-right"><a href="sessions.html" class="back-link">← All Sessions</a><button class="logout-btn" id="logoutBtn">Sign out</button></div></nav>
-  <div class="page-hero"><div class="eyebrow">Live Session</div><div class="page-title">📚 Education & Experts</div><div class="live-badge"><span class="live-dot"></span> Stream goes live at session time</div></div>
-  <div class="player-section"><div class="player-wrap"><div class="coming-soon"><div class="cs-icon">📚</div><div class="cs-text">Coming Soon</div><div class="cs-sub">The live stream will appear here when the session begins. Check the calendar for session times.</div></div></div></div>
-  <div class="info-strip"><div class="info-item"><span class="info-label">Session</span><span class="info-val">Education & Experts</span></div><div class="info-item"><span class="info-label">Format</span><span class="info-val">Live Stream</span></div><div class="info-item"><span class="info-label">Access</span><span class="info-val">Members Only</span></div></div>
-  <div class="replay-link-section"><a href="education-rp.html" class="replay-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> View past replays</a></div>
-  <footer><span>© 2026 VYVE Health</span></footer>
-</div>
-</body>
-</html>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_8gekeZglc1HBDu3d9kMuqOuRWn6HIChhnaiQi6uvonl', {
+  api_host: 'https://eu.i.posthog.com',
+  defaults: '2026-01-30'
+});
+
+const VYVE_AUTH0_DOMAIN    = "dev-340hbcgnjubvwb85.uk.auth0.com";
+const VYVE_AUTH0_CLIENT_ID = "F7LMC3G7QCZOiAyxheEhAz3lhLcsAA7v";
+const VYVE_AUTH0_SDK       = "https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js";
+const VYVE_RETURN_TO_KEY   = "vyve_return_to";
+
+let vyveAuth0Client = null;
+window.vyveCurrentUser = null;
+
+function vyveGetSessionType() {
+  var path = window.location.pathname;
+  if (path.includes('yoga'))        return 'Yoga, Pilates & Stretch';
+  if (path.includes('checkin'))     return 'Weekly Check-in';
+  if (path.includes('workouts'))    return 'Workout';
+  if (path.includes('mindfulness')) return 'Mindfulness & Meditation';
+  if (path.includes('education'))   return 'Education Talk';
+  if (path.includes('therapy'))     return 'Therapy & Wellbeing';
+  if (path.includes('events'))      return 'Events & Q&A';
+  return 'Unknown';
+}
+
+function vyveRevealApp(message) {
+  const app = document.getElementById('app');
+  if (app) app.style.display = 'block';
+  if (message) {
+    let note = document.getElementById('vyveNotice');
+    if (!note) {
+      note = document.createElement('div');
+      note.id = 'vyveNotice';
+      note.style.cssText = 'position:sticky;top:0;z-index:9999;padding:10px 14px;background:#fff3cd;color:#5c4400;font:14px/1.4 Arial,sans-serif;border-bottom:1px solid #e6d38a';
+      document.body.prepend(note);
+    }
+    note.textContent = message;
+  }
+}
+
+function vyveSetMemberName(user) {
+  const nameEl = document.getElementById('memberName');
+  if (nameEl && user) nameEl.textContent = user.given_name || user.name || 'Member';
+}
+
+function vyveBindLogout() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (!logoutBtn || !vyveAuth0Client || logoutBtn.dataset.bound === 'true') return;
+  logoutBtn.dataset.bound = 'true';
+  logoutBtn.addEventListener('click', () => {
+    try { sessionStorage.removeItem(VYVE_RETURN_TO_KEY); } catch (e) {}
+    vyveAuth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+  });
+}
+
+function vyveCapturePageView(user) {
+  if (!window.posthog) return;
+  try {
+    if (user && user.sub) {
+      posthog.identify(user.sub, { email: user.email, name: user.name });
+    }
+    var path = window.location.pathname;
+    var isLive   = path.includes('-live');
+    var isReplay = path.includes('-rp');
+    var sessionType = vyveGetSessionType();
+    posthog.capture('portal_page_viewed', {
+      page: path, title: document.title,
+      session_type: sessionType,
+      page_type: isLive ? 'live' : isReplay ? 'replay' : 'other'
+    });
+    if (isLive && user) {
+      posthog.capture('live_session_accessed', {
+        email: user.email, session_type: sessionType, date: new Date().toISOString()
+      });
+    }
+    if (isReplay && user) {
+      posthog.capture('replay_page_accessed', {
+        email: user.email, session_type: sessionType, date: new Date().toISOString()
+      });
+    }
+  } catch (e) { console.warn('PostHog tracking failed', e); }
+}
+
+function vyveLoadAuth0Sdk() {
+  return new Promise((resolve, reject) => {
+    if (typeof window.createAuth0Client === 'function') { resolve(); return; }
+    const existing = document.querySelector(`script[src="${VYVE_AUTH0_SDK}"]`);
+    if (existing) {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('Auth0 SDK failed to load')), { once: true });
+      setTimeout(() => { if (typeof window.createAuth0Client === 'function') resolve(); }, 1500);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VYVE_AUTH0_SDK;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Auth0 SDK failed to load'));
+    document.head.appendChild(script);
+  });
+}
+
+async function vyveInitAuth() {
+  try {
+    await vyveLoadAuth0Sdk();
+    if (typeof window.createAuth0Client !== 'function') {
+      throw new Error('createAuth0Client is not available');
+    }
+    vyveAuth0Client = await createAuth0Client({
+      domain: VYVE_AUTH0_DOMAIN,
+      clientId: VYVE_AUTH0_CLIENT_ID,
+      authorizationParams: { redirect_uri: window.location.origin },
+      cacheLocation: 'localstorage'
+    });
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('code') && params.has('state')) {
+      await vyveAuth0Client.handleRedirectCallback();
+      const returnTo = sessionStorage.getItem(VYVE_RETURN_TO_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      if (returnTo && returnTo !== window.location.href && returnTo !== window.location.origin + '/' && returnTo !== window.location.origin) {
+        sessionStorage.removeItem(VYVE_RETURN_TO_KEY);
+        window.location.replace(returnTo);
+        return;
+      }
+      sessionStorage.removeItem(VYVE_RETURN_TO_KEY);
+    }
+    const isAuthenticated = await vyveAuth0Client.isAuthenticated();
+    if (!isAuthenticated) {
+      sessionStorage.setItem(VYVE_RETURN_TO_KEY, window.location.href);
+      await vyveAuth0Client.loginWithRedirect();
+      return;
+    }
+    const user = await vyveAuth0Client.getUser();
+    window.vyveCurrentUser = user;
+    vyveSetMemberName(user);
+    vyveBindLogout();
+    vyveRevealApp();
+    vyveCapturePageView(user);
+  } catch (error) {
+    console.error('VYVE Auth initialisation failed:', error);
+    vyveRevealApp('Preview mode: Auth0 failed to initialise, so this page has been shown without login.');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', vyveInitAuth);
