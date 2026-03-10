@@ -4,10 +4,9 @@
    live and replay HTML page (after auth.js)
    ============================================================ */
 
-const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbyfpOBk4dxprsZiVK4BwznCDL3sHpYoEzJC1P0vYgv3OQJxJPb_Non80KOznbmnjHOJ/exec";
-const VYVE_HEARTBEAT_INTERVAL = 30000; // send minutes update every 30 seconds
+const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbwnCBtE63bZRe49sw3tsbxnEZiBi_RHM1CwQVcmzq9qXeicx-_gfoDlY2cW0XDnu80w/exec";
+const VYVE_HEARTBEAT_INTERVAL = 30000; // 30 seconds
 
-// Detect session name from current URL
 function vyveGetSessionName() {
   const path = window.location.pathname;
   if (path.includes('yoga'))        return 'Yoga, Pilates & Stretch';
@@ -20,7 +19,6 @@ function vyveGetSessionName() {
   return 'Unknown';
 }
 
-// Detect event type from URL
 function vyveGetEventType() {
   const path = window.location.pathname;
   if (path.includes('-live')) return 'live_accessed';
@@ -28,34 +26,19 @@ function vyveGetEventType() {
   return 'page_viewed';
 }
 
-// Send log using hidden iframe form — bypasses CORS entirely
+// Send via GET request using an image tag — no CORS, no 403
 function vyveSendLog(payload) {
-  const iframe = document.createElement('iframe');
-  iframe.name = 'vyve_tracker_frame_' + Date.now();
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
-
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = VYVE_TRACKER_URL;
-  form.target = iframe.name;
-
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'data';
-  input.value = JSON.stringify(payload);
-  form.appendChild(input);
-
-  document.body.appendChild(form);
-  form.submit();
-
-  setTimeout(() => {
-    if (document.body.contains(form))   document.body.removeChild(form);
-    if (document.body.contains(iframe)) document.body.removeChild(iframe);
-  }, 5000);
+  const params = new URLSearchParams({
+    email:   payload.email,
+    event:   payload.event,
+    session: payload.session,
+    url:     payload.url,
+    minutes: payload.minutes || ''
+  });
+  const img = new Image();
+  img.src = VYVE_TRACKER_URL + '?' + params.toString();
 }
 
-// Log page access
 function vyveLogAccess() {
   const user = window.vyveCurrentUser;
   if (!user || !user.email) return;
@@ -68,11 +51,9 @@ function vyveLogAccess() {
   });
 }
 
-// Heartbeat — sends cumulative minutes every 30 seconds
 function vyveStartHeartbeat() {
   const user = window.vyveCurrentUser;
   if (!user || !user.email) return;
-
   setInterval(() => {
     const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
     if (minutes < 0.1) return;
@@ -86,10 +67,8 @@ function vyveStartHeartbeat() {
   }, VYVE_HEARTBEAT_INTERVAL);
 }
 
-// Track time on page
 const vyvePageStartTime = Date.now();
 
-// Wait for Auth0 to identify user then log access + start heartbeat
 function vyveWaitAndLogAccess(attempts) {
   attempts = attempts || 0;
   if (window.vyveCurrentUser && window.vyveCurrentUser.email) {
@@ -100,7 +79,6 @@ function vyveWaitAndLogAccess(attempts) {
   }
 }
 
-// Kick off
 document.addEventListener('DOMContentLoaded', function () {
   vyveWaitAndLogAccess();
 });
