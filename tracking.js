@@ -4,7 +4,7 @@
    live and replay HTML page (after auth.js)
    ============================================================ */
 
-const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbwnCBtE63bZRe49sw3tsbxnEZiBi_RHM1CwQVcmzq9qXeicx-_gfoDlY2cW0XDnu80w/exec";
+const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbzf8DQByTcoz8wIO1gbqXeCyp312_1wyJfrP2pBsPP5WJORHsKKBvjsLUDfVAmUZpty/exec";
 const VYVE_HEARTBEAT_INTERVAL = 30000; // 30 seconds
 
 function vyveGetSessionName() {
@@ -26,7 +26,7 @@ function vyveGetEventType() {
   return 'page_viewed';
 }
 
-// Send via GET request using an image tag — no CORS, no 403
+// Send via script tag — follows Google redirects, no CORS issues
 function vyveSendLog(payload) {
   const params = new URLSearchParams({
     email:   payload.email,
@@ -35,8 +35,11 @@ function vyveSendLog(payload) {
     url:     payload.url,
     minutes: payload.minutes || ''
   });
-  const img = new Image();
-  img.src = VYVE_TRACKER_URL + '?' + params.toString();
+  const script = document.createElement('script');
+  script.src = VYVE_TRACKER_URL + '?' + params.toString();
+  script.onload  = () => { if (script.parentNode) script.parentNode.removeChild(script); };
+  script.onerror = () => { if (script.parentNode) script.parentNode.removeChild(script); };
+  document.head.appendChild(script);
 }
 
 function vyveLogAccess() {
