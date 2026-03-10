@@ -4,7 +4,7 @@
    live and replay HTML page (after auth.js)
    ============================================================ */
 
-const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbyYSc1zrMeqeaN9p_OBmiYpOJjimVK7UFQ90tmIMrREQlpQMPXTM5ctx9ZdGmtkAuLN/exec";
+const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbwD-Mm7OcfpOFDUKdeEErk2kzHUHmL9yeSJV4yq_L0WZ9gsIHXdn0TBN0D2dLer15za/exec";
 
 // Detect session name from current URL
 function vyveGetSessionName() {
@@ -27,29 +27,17 @@ function vyveGetEventType() {
   return 'page_viewed';
 }
 
-// Send log using a hidden form — bypasses CORS entirely
-function vyveSendLog(minutesWatched) {
-  const user = window.vyveCurrentUser;
-  if (!user || !user.email) return;
-
-  const payload = {
-    email:   user.email,
-    event:   minutesWatched !== undefined ? 'session_watched' : vyveGetEventType(),
-    session: vyveGetSessionName(),
-    url:     window.location.href,
-    minutes: minutesWatched !== undefined ? minutesWatched : ""
-  };
-
-  // Build a hidden iframe + form to POST without triggering CORS preflight
+// Send log using hidden iframe form — bypasses CORS entirely
+function vyveSendLog(payload) {
   const iframe = document.createElement('iframe');
-  iframe.name = 'vyve_tracker_frame';
+  iframe.name = 'vyve_tracker_frame_' + Date.now();
   iframe.style.display = 'none';
   document.body.appendChild(iframe);
 
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = VYVE_TRACKER_URL;
-  form.target = 'vyve_tracker_frame';
+  form.target = iframe.name;
 
   const input = document.createElement('input');
   input.type = 'hidden';
@@ -63,7 +51,35 @@ function vyveSendLog(minutesWatched) {
   setTimeout(() => {
     if (document.body.contains(form))   document.body.removeChild(form);
     if (document.body.contains(iframe)) document.body.removeChild(iframe);
-  }, 3000);
+  }, 5000);
+}
+
+// Log page access
+function vyveLogAccess() {
+  const user = window.vyveCurrentUser;
+  if (!user || !user.email) return;
+  vyveSendLog({
+    email:   user.email,
+    event:   vyveGetEventType(),
+    session: vyveGetSessionName(),
+    url:     window.location.href,
+    minutes: ''
+  });
+}
+
+// Log minutes watched on page leave
+function vyveLogMinutes() {
+  const user = window.vyveCurrentUser;
+  if (!user || !user.email) return;
+  const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
+  if (minutes < 0.1) return; // skip if less than 6 seconds
+  vyveSendLog({
+    email:   user.email,
+    event:   'session_watched',
+    session: vyveGetSessionName(),
+    url:     window.location.href,
+    minutes: minutes
+  });
 }
 
 // Track time on page
@@ -73,19 +89,14 @@ const vyvePageStartTime = Date.now();
 function vyveWaitAndLogAccess(attempts) {
   attempts = attempts || 0;
   if (window.vyveCurrentUser && window.vyveCurrentUser.email) {
-    vyveSendLog();
-  } else if (attempts < 10) {
+    vyveLogAccess();
+  } else if (attempts < 20) {
     setTimeout(() => vyveWaitAndLogAccess(attempts + 1), 500);
   }
 }
 
-// Log minutes watched on page leave
-window.addEventListener('beforeunload', function () {
-  const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
-  if (minutes >= 0.5) {
-    vyveSendLog(minutes);
-  }
-});
+// Log minutes on page leave
+window.addEventListener('beforeunload', vyveLogMinutes);
 
 // Kick off
 document.addEventListener('DOMContentLoaded', function () {
