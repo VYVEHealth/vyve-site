@@ -4,7 +4,7 @@
    live and replay HTML page (after auth.js)
    ============================================================ */
 
-const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbyRiAwc66-nP_I7Kkn82QIEEsfV02PTgJbNFM2pdYzes3irTEghaCbg4hLFSyoo-D2J/exec";
+const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbyYSc1zrMeqeaN9p_OBmiYpOJjimVK7UFQ90tmIMrREQlpQMPXTM5ctx9ZdGmtkAuLN/exec";
 
 // Detect session name from current URL
 function vyveGetSessionName() {
@@ -51,7 +51,6 @@ function vyveSendLog(minutesWatched) {
   form.action = VYVE_TRACKER_URL;
   form.target = 'vyve_tracker_frame';
 
-  // Append payload as a single field called "data"
   const input = document.createElement('input');
   input.type = 'hidden';
   input.name = 'data';
@@ -61,10 +60,9 @@ function vyveSendLog(minutesWatched) {
   document.body.appendChild(form);
   form.submit();
 
-  // Clean up after submission
   setTimeout(() => {
-    document.body.removeChild(form);
-    document.body.removeChild(iframe);
+    if (document.body.contains(form))   document.body.removeChild(form);
+    if (document.body.contains(iframe)) document.body.removeChild(iframe);
   }, 3000);
 }
 
