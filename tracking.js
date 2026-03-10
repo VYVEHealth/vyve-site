@@ -4,7 +4,8 @@
    live and replay HTML page (after auth.js)
    ============================================================ */
 
-const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbwD-Mm7OcfpOFDUKdeEErk2kzHUHmL9yeSJV4yq_L0WZ9gsIHXdn0TBN0D2dLer15za/exec";
+const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbyfpOBk4dxprsZiVK4BwznCDL3sHpYoEzJC1P0vYgv3OQJxJPb_Non80KOznbmnjHOJ/exec";
+const VYVE_HEARTBEAT_INTERVAL = 30000; // send minutes update every 30 seconds
 
 // Detect session name from current URL
 function vyveGetSessionName() {
@@ -67,36 +68,37 @@ function vyveLogAccess() {
   });
 }
 
-// Log minutes watched on page leave
-function vyveLogMinutes() {
+// Heartbeat — sends cumulative minutes every 30 seconds
+function vyveStartHeartbeat() {
   const user = window.vyveCurrentUser;
   if (!user || !user.email) return;
-  const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
-  if (minutes < 0.1) return; // skip if less than 6 seconds
-  vyveSendLog({
-    email:   user.email,
-    event:   'session_watched',
-    session: vyveGetSessionName(),
-    url:     window.location.href,
-    minutes: minutes
-  });
+
+  setInterval(() => {
+    const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
+    if (minutes < 0.1) return;
+    vyveSendLog({
+      email:   user.email,
+      event:   'session_watched',
+      session: vyveGetSessionName(),
+      url:     window.location.href,
+      minutes: minutes
+    });
+  }, VYVE_HEARTBEAT_INTERVAL);
 }
 
 // Track time on page
 const vyvePageStartTime = Date.now();
 
-// Wait for Auth0 to identify user then log access
+// Wait for Auth0 to identify user then log access + start heartbeat
 function vyveWaitAndLogAccess(attempts) {
   attempts = attempts || 0;
   if (window.vyveCurrentUser && window.vyveCurrentUser.email) {
     vyveLogAccess();
+    vyveStartHeartbeat();
   } else if (attempts < 20) {
     setTimeout(() => vyveWaitAndLogAccess(attempts + 1), 500);
   }
 }
-
-// Log minutes on page leave
-window.addEventListener('beforeunload', vyveLogMinutes);
 
 // Kick off
 document.addEventListener('DOMContentLoaded', function () {
