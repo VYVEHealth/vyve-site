@@ -27,7 +27,7 @@ function vyveGetEventType() {
   return 'page_viewed';
 }
 
-// Send log to Google Sheets via Apps Script
+// Send log using a hidden form — bypasses CORS entirely
 function vyveSendLog(minutesWatched) {
   const user = window.vyveCurrentUser;
   if (!user || !user.email) return;
@@ -40,20 +40,32 @@ function vyveSendLog(minutesWatched) {
     minutes: minutesWatched !== undefined ? minutesWatched : ""
   };
 
-  // Use sendBeacon for page-unload (most reliable on close)
-  if (navigator.sendBeacon) {
-    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-    navigator.sendBeacon(VYVE_TRACKER_URL, blob);
-  } else {
-    // Fallback: no-cors fetch (fixes CORS error from Google Apps Script)
-    fetch(VYVE_TRACKER_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true
-    }).catch(err => console.warn('VYVE tracking failed:', err));
-  }
+  // Build a hidden iframe + form to POST without triggering CORS preflight
+  const iframe = document.createElement('iframe');
+  iframe.name = 'vyve_tracker_frame';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = VYVE_TRACKER_URL;
+  form.target = 'vyve_tracker_frame';
+
+  // Append payload as a single field called "data"
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(payload);
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
+
+  // Clean up after submission
+  setTimeout(() => {
+    document.body.removeChild(form);
+    document.body.removeChild(iframe);
+  }, 3000);
 }
 
 // Track time on page
