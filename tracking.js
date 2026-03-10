@@ -30,7 +30,7 @@ function vyveGetEventType() {
 // Send log to Google Sheets via Apps Script
 function vyveSendLog(minutesWatched) {
   const user = window.vyveCurrentUser;
-  if (!user || !user.email) return; // only log identified members
+  if (!user || !user.email) return;
 
   const payload = {
     email:   user.email,
@@ -40,13 +40,15 @@ function vyveSendLog(minutesWatched) {
     minutes: minutesWatched !== undefined ? minutesWatched : ""
   };
 
-  // Use sendBeacon for page-unload events (more reliable than fetch on close)
-  if (minutesWatched !== undefined && navigator.sendBeacon) {
+  // Use sendBeacon for page-unload (most reliable on close)
+  if (navigator.sendBeacon) {
     const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
     navigator.sendBeacon(VYVE_TRACKER_URL, blob);
   } else {
+    // Fallback: no-cors fetch (fixes CORS error from Google Apps Script)
     fetch(VYVE_TRACKER_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       keepalive: true
@@ -57,12 +59,11 @@ function vyveSendLog(minutesWatched) {
 // Track time on page
 const vyvePageStartTime = Date.now();
 
-// Log page access on load (after Auth0 identifies user)
-// Waits up to 5 seconds for vyveCurrentUser to be set
+// Wait for Auth0 to identify user then log access
 function vyveWaitAndLogAccess(attempts) {
   attempts = attempts || 0;
   if (window.vyveCurrentUser && window.vyveCurrentUser.email) {
-    vyveSendLog(); // log the access event
+    vyveSendLog();
   } else if (attempts < 10) {
     setTimeout(() => vyveWaitAndLogAccess(attempts + 1), 500);
   }
@@ -71,12 +72,12 @@ function vyveWaitAndLogAccess(attempts) {
 // Log minutes watched on page leave
 window.addEventListener('beforeunload', function () {
   const minutes = parseFloat(((Date.now() - vyvePageStartTime) / 60000).toFixed(2));
-  if (minutes >= 0.5) { // only log if they spent at least 30 seconds
+  if (minutes >= 0.5) {
     vyveSendLog(minutes);
   }
 });
 
-// Kick off access log
+// Kick off
 document.addEventListener('DOMContentLoaded', function () {
   vyveWaitAndLogAccess();
 });
