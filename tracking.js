@@ -5,10 +5,11 @@
    ============================================================ */
 
 const VYVE_TRACKER_URL = "https://script.google.com/macros/s/AKfycbzf8DQByTcoz8wIO1gbqXeCyp312_1wyJfrP2pBsPP5WJORHsKKBvjsLUDfVAmUZpty/exec";
-const VYVE_HEARTBEAT_INTERVAL = 30000; // 30 seconds
+const VYVE_HEARTBEAT_INTERVAL = 15000; // 15 seconds
 
 function vyveGetSessionName() {
   const path = window.location.pathname;
+  if (path.includes('sessions'))    return 'Sessions Hub';
   if (path.includes('yoga'))        return 'Yoga, Pilates & Stretch';
   if (path.includes('mindfulness')) return 'Mindfulness & Mindset';
   if (path.includes('workouts'))    return 'Workouts';
