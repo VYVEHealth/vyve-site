@@ -512,7 +512,8 @@ function setTrack(prefix, count, labelOverride) {
   document.getElementById(`${prefix}-milestone`).innerHTML   =
     `Next milestone: <strong>${milestone}</strong> (${ordinal} month)`;
   document.getElementById(`${prefix}-bar`).style.width       = pct + '%';
-  document.getElementById(`${prefix}-to-next`).textContent   = toNext;
+  const toNextEl = document.getElementById(`${prefix}-to-next`);
+  if (toNextEl) toNextEl.textContent = toNext;
 
   if (document.getElementById(`${prefix}-earned`)) {
     document.getElementById(`${prefix}-earned`).textContent = earned;
