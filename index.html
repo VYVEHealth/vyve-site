@@ -581,7 +581,7 @@ async function loadDashboard() {
     const workout  = parseInt(m['Workout'])   || 0;
     const cardio   = parseInt(m['Cardio'])    || 0;
     const checkins = parseInt(m['Check-ins']) || 0;
-    const sessions = 0; // Session Log tab — wire up when ready
+    const sessions = parseInt(m['sessions_watched']) || 0;
 
     setTrack('habits',   habits);
     setTrack('workout',  workout);
