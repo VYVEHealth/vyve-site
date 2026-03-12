@@ -359,8 +359,8 @@ main{position:relative;z-index:1;padding-top:64px}
   <div class="hero">
     <div class="hero-left">
       <div class="hero-eyebrow">Welcome back</div>
-      <div class="hero-name" id="greeting">Good morning, <span id="member-name">...</span></div>
-      <div class="hero-sub" id="hero-sub">Loading your data...</div>
+      <div class="hero-name" id="greeting">Good morning</div>
+      <div class="hero-sub" id="hero-sub">Loading your progress, won't be long...</div>
     </div>
     <div class="hero-right">
       <div class="hero-score-badge" id="score-badge">
@@ -610,6 +610,9 @@ const API = 'https://script.google.com/macros/s/AKfycbwPr0NJgDuZn5TPdCO16fLgc_LG
 const hour = new Date().getHours();
 const greetingText = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
+// Set greeting immediately — before API responds — so it's never wrong
+document.getElementById('greeting').textContent = greetingText;
+
 // ── MILESTONE HELPER ──────────────────────────────────────
 function getMilestone(count) {
   const milestone = Math.ceil((count + 1) / 30) * 30;
@@ -678,7 +681,7 @@ async function loadDashboard() {
     // Name + greeting
     const firstName = m['First Name'] || 'there';
     document.getElementById('greeting').innerHTML =
-      `${greetingText}, <span>${firstName}.</span>`;
+      `${greetingText}, <span>${firstName}</span>.`;
 
     // Avatar initials
     const initials = (m['First Name']?.[0] || '') + (m['Last Name']?.[0] || '');
