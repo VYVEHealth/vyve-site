@@ -89,14 +89,27 @@ main{position:relative;z-index:1;padding-top:64px}
 .hero-name span{color:var(--teal-xl);font-style:italic}
 .hero-sub{font-size:1rem;color:var(--muted);line-height:1.5}
 .hero-right{position:relative}
-.hero-streak-badge{
-  text-align:center;padding:20px 28px;
+.hero-score-badge{
+  text-align:center;padding:22px 24px 18px;
   background:rgba(27,120,120,0.25);border:1px solid rgba(77,170,170,0.3);
-  border-radius:14px;
+  border-radius:16px;min-width:210px;transition:border-color 0.5s;
 }
-.hero-streak-num{font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--teal-xl);line-height:1}
-.hero-streak-label{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
-.hero-streak-sub{font-size:0.75rem;color:var(--teal-lt);margin-top:4px}
+.hero-score-ring{position:relative;width:96px;height:96px;margin:0 auto 10px}
+.hero-score-ring svg{width:96px;height:96px;transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:8}
+.score-ring-fill{fill:none;stroke:var(--teal-xl);stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:251.2;stroke-dashoffset:251.2;
+  transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1),stroke 0.5s}
+.hero-score-num{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--white);line-height:1}
+.hero-score-band{font-size:0.75rem;font-weight:700;letter-spacing:0.06em;color:var(--teal-xl);margin-bottom:12px}
+.hero-score-bars{display:flex;flex-direction:column;gap:5px;text-align:left}
+.score-bar-row{display:flex;align-items:center;gap:8px}
+.score-bar-label{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);width:60px;flex-shrink:0}
+.score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.score-bar-val{font-size:0.65rem;font-weight:700;color:var(--muted);width:28px;text-align:right;flex-shrink:0}
 
 /* LIVE BANNER — now two rows: Live Now + Up Next */
 .session-banners{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
@@ -187,8 +200,9 @@ main{position:relative;z-index:1;padding-top:64px}
 .track-badge.elite{background:rgba(224,155,61,0.2);border-color:rgba(224,155,61,0.4);color:var(--amber)}
 
 /* NAV CARDS */
-.nav-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
+.nav-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px}
 @media(max-width:900px){.nav-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.nav-cards{grid-template-columns:1fr 1fr}}
 
 .nav-card{
   display:flex;flex-direction:column;justify-content:space-between;
@@ -248,8 +262,61 @@ main{position:relative;z-index:1;padding-top:64px}
 
 .logout-btn{font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:20px;cursor:pointer;transition:all 0.2s}
 .logout-btn:hover{border-color:var(--teal-lt);color:var(--teal-xl)}
+/* WELLBEING BANNER — slides up from bottom like native app prompt */
+.wb-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  transform:translateY(100%);
+  transition:transform 0.4s cubic-bezier(0.34,1.4,0.64,1);
+}
+.wb-banner.visible{transform:translateY(0)}
+.wb-inner{
+  margin:0 auto;max-width:600px;
+  background:linear-gradient(145deg,#0D3535,#0A2828);
+  border:1px solid rgba(77,170,170,0.3);
+  border-bottom:none;
+  border-radius:20px 20px 0 0;
+  padding:24px 28px 32px;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.5);
+}
+.wb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.wb-title{font-size:1rem;font-weight:700;color:var(--white)}
+.wb-dismiss{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;line-height:1;padding:0 4px;transition:color 0.2s}
+.wb-dismiss:hover{color:var(--white)}
+.wb-sub{font-size:0.82rem;color:var(--muted);margin-bottom:20px}
+.wb-slider-wrap{margin-bottom:16px}
+.wb-slider{
+  width:100%;appearance:none;-webkit-appearance:none;
+  height:6px;border-radius:10px;outline:none;cursor:pointer;
+  background:linear-gradient(to right,var(--teal) 0%,var(--teal) 50%,rgba(255,255,255,0.12) 50%,rgba(255,255,255,0.12) 100%);
+}
+.wb-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--teal-xl);border:2px solid var(--white);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer;
+}
+.wb-slider::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--teal-xl);border:2px solid var(--white);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer;
+}
+.wb-scale{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-top:6px;padding:0 2px}
+.wb-score-display{text-align:center;margin-bottom:16px}
+.wb-score-val{font-family:var(--font-head);font-size:2.2rem;font-weight:800;color:var(--teal-xl);line-height:1}
+.wb-score-mood{font-size:0.82rem;color:var(--muted);margin-top:4px}
+.wb-submit{
+  width:100%;padding:14px;border-radius:10px;border:none;cursor:pointer;
+  background:var(--teal);color:var(--white);
+  font-family:var(--font-body);font-size:0.9rem;font-weight:700;
+  transition:all 0.2s;
+}
+.wb-submit:hover{background:#1E8F8F;transform:translateY(-1px)}
+.wb-confirm{
+  text-align:center;padding:20px 0 4px;
+  font-size:1rem;font-weight:600;color:#4ade80;display:none;
+}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.hero{animation:fadeUp 0.5s ease both}
 .session-banners{animation:fadeUp 0.5s 0.1s ease both}
 .tracks-grid{animation:fadeUp 0.5s 0.2s ease both}
 .nav-cards{animation:fadeUp 0.5s 0.3s ease both}
@@ -286,10 +353,40 @@ main{position:relative;z-index:1;padding-top:64px}
       <div class="hero-sub" id="hero-sub">Loading your data...</div>
     </div>
     <div class="hero-right">
-      <div class="hero-streak-badge">
-        <div class="hero-streak-num" id="streak-num">—</div>
-        <div class="hero-streak-label" id="streak-label">Days Inactive</div>
-        <div class="hero-streak-sub" id="streak-sub">Loading...</div>
+      <div class="hero-score-badge" id="score-badge">
+        <!-- Ring -->
+        <div class="hero-score-ring">
+          <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+            <circle class="score-ring-bg" cx="48" cy="48" r="40"/>
+            <circle class="score-ring-fill" id="score-ring" cx="48" cy="48" r="40"/>
+          </svg>
+          <div class="hero-score-num" id="score-num">—</div>
+        </div>
+        <!-- Band label -->
+        <div class="hero-score-band" id="score-band">Loading...</div>
+        <!-- Component breakdown bars -->
+        <div class="hero-score-bars">
+          <div class="score-bar-row">
+            <div class="score-bar-label">Activity</div>
+            <div class="score-bar-track"><div class="score-bar-fill" id="sb-activity" style="width:0%;background:#4DAAAA"></div></div>
+            <div class="score-bar-val" id="sv-activity">—</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Consistency</div>
+            <div class="score-bar-track"><div class="score-bar-fill" id="sb-consistency" style="width:0%;background:#7AC8C8"></div></div>
+            <div class="score-bar-val" id="sv-consistency">—</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Variety</div>
+            <div class="score-bar-track"><div class="score-bar-fill" id="sb-variety" style="width:0%;background:#E09B3D"></div></div>
+            <div class="score-bar-val" id="sv-variety">—</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Wellbeing</div>
+            <div class="score-bar-track"><div class="score-bar-fill" id="sb-wellbeing" style="width:0%;background:#9B7AE0"></div></div>
+            <div class="score-bar-val" id="sv-wellbeing">—</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -398,7 +495,7 @@ main{position:relative;z-index:1;padding-top:64px}
   <div class="sec-head">
     <div class="sec-title">Your VYVE</div>
   </div>
-  <div class="nav-cards">
+  <div class="nav-cards" style="grid-template-columns:repeat(3,1fr)">
     <a href="sessions.html" class="nav-card featured">
       <div>
         <div class="nav-card-icon">📋</div>
@@ -425,6 +522,20 @@ main{position:relative;z-index:1;padding-top:64px}
         <div class="nav-card-icon">🎬</div>
         <div class="nav-card-title">Catch-Up</div>
         <div class="nav-card-desc">Watch any session you've missed</div>
+      </div>
+    </a>
+    <a href="how-to-pdfs.html" class="nav-card">
+      <div>
+        <div class="nav-card-icon">📄</div>
+        <div class="nav-card-title">Guides & Resources</div>
+        <div class="nav-card-desc">PDF guides to help you get the most from VYVE</div>
+      </div>
+    </a>
+    <a href="how-to-videos.html" class="nav-card">
+      <div>
+        <div class="nav-card-icon">🎓</div>
+        <div class="nav-card-title">How-To Videos</div>
+        <div class="nav-card-desc">Step-by-step video walkthroughs</div>
       </div>
     </a>
   </div>
@@ -482,7 +593,7 @@ main{position:relative;z-index:1;padding-top:64px}
 </main>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbynIhz4y74Dvlk0FFwyIrGyLjsfYssAAkPj9EcRxsLlQlYkvSnDhVpj4WkD8OczDS_i/exec';
+const API = 'https://script.google.com/macros/s/AKfycbwPr0NJgDuZn5TPdCO16fLgc_LGiIGOcosmslRnoJdj861E37sYTW7O0TJOVx8f1Hs/exec';
 
 // ── GREETING ──────────────────────────────────────────────
 const hour = new Date().getHours();
@@ -562,19 +673,98 @@ async function loadDashboard() {
     const initials = (m['First Name']?.[0] || '') + (m['Last Name']?.[0] || '');
     const avatarEl = document.getElementById('nav-avatar'); if(avatarEl) avatarEl.textContent = initials;
 
-    // Days inactive + hero badge
+    // Days inactive — used for hero sub-text and engagement score
     const daysInactive = parseInt(m['days_inactive']) || 0;
-    document.getElementById('streak-num').textContent  = daysInactive;
-    document.getElementById('streak-label').textContent = daysInactive === 1 ? 'Day Inactive' : 'Days Inactive';
-    document.getElementById('streak-sub').textContent =
-      daysInactive === 0 ? '✅ Active today' :
-      daysInactive <= 7  ? '🟡 Keep it up!' : '🔴 Time to jump back in';
+
+    // Hero sub-text
     document.getElementById('hero-sub').textContent =
       daysInactive === 0
-        ? `You logged activity today — great work!`
+        ? 'You logged activity today — great work!'
         : daysInactive <= 7
         ? `Last active ${daysInactive} day${daysInactive > 1 ? 's' : ''} ago — you're doing well.`
         : `It's been ${daysInactive} days — your next session is waiting.`;
+
+    // ── ENGAGEMENT SCORE ─────────────────────────────────
+    // Computed client-side from available data points.
+    // Scores are additive: base(50) + activity(0-12.5) + consistency(0-12.5) + variety(0-12.5) + wellbeing(0-12.5)
+
+    function computeEngagementScore(data, streakData, lastWellbeing) {
+      // 1. ACTIVITY — days active in last 30 (proxy: if active today daysInactive=0, assume reasonable activity)
+      //    Best estimate from daysInactive: 0 days = very active, scale down from there
+      const activityRaw  = Math.max(0, 30 - daysInactive); // days likely active in window
+      const activityPts  = Math.min(12.5, (activityRaw / 30) * 12.5);
+
+      // 2. CONSISTENCY — longest streak vs 30-day window (best available proxy)
+      const habitsStreak = (streakData['habits'] || {}).current || 0;
+      const consistencyPts = Math.min(12.5, (Math.min(habitsStreak, 30) / 30) * 12.5);
+
+      // 3. VARIETY — how many of 4 session types have any activity logged
+      const varMap = [
+        parseInt(data['Workout'])  || 0,
+        parseInt(data['Cardio'])   || 0,
+        parseInt(data['Habits'])   || 0,
+        parseInt(data['sessions_watched']) || 0
+      ];
+      const typesUsed = varMap.filter(v => v > 0).length;
+      const varietyPts = [0, 4.5, 8, 11, 12.5][typesUsed] || 0;
+
+      // 4. WELLBEING — last logged check-in score (1-10 → 0-12.5)
+      const wbScore    = lastWellbeing || 5; // default to 5 (midpoint) if never logged
+      const wellbeingPts = ((wbScore - 1) / 9) * 12.5;
+
+      const total = Math.round(50 + activityPts + consistencyPts + varietyPts + wellbeingPts);
+      return {
+        total: Math.min(100, total),
+        components: {
+          activity:    { pts: Math.round(activityPts * 10) / 10,    max: 12.5 },
+          consistency: { pts: Math.round(consistencyPts * 10) / 10, max: 12.5 },
+          variety:     { pts: Math.round(varietyPts * 10) / 10,     max: 12.5 },
+          wellbeing:   { pts: Math.round(wellbeingPts * 10) / 10,   max: 12.5 }
+        }
+      };
+    }
+
+    function getBand(score) {
+      if (score >= 90) return { label: 'Peak VYVE 🏆',        color: '#F0C070' };
+      if (score >= 80) return { label: 'Thriving',             color: '#4ade80' };
+      if (score >= 65) return { label: 'Building Momentum',    color: '#4DAAAA' };
+      return                  { label: 'Getting Started',      color: 'var(--teal-xl)' };
+    }
+
+    function renderEngagementScore(score, components) {
+      const { total, components: c } = score;
+      const band = getBand(total);
+
+      // Ring — circumference 251.2 (r=40)
+      const offset = 251.2 - (total / 100) * 251.2;
+      const ring = document.getElementById('score-ring');
+      ring.style.strokeDashoffset = offset;
+      ring.style.stroke = band.color;
+
+      document.getElementById('score-num').textContent  = total;
+      document.getElementById('score-band').textContent = band.label;
+      document.getElementById('score-band').style.color = band.color;
+      document.getElementById('score-badge').style.borderColor = band.color.includes('rgba') ? band.color : band.color + '66';
+
+      // Component bars (each out of 12.5 max → show as pct of 12.5)
+      const setBar = (key, pts) => {
+        const pct = Math.min(100, (pts / 12.5) * 100);
+        document.getElementById(`sb-${key}`).style.width = pct + '%';
+        document.getElementById(`sv-${key}`).textContent = pts.toFixed(1);
+      };
+      setBar('activity',    c.activity.pts);
+      setBar('consistency', c.consistency.pts);
+      setBar('variety',     c.variety.pts);
+      setBar('wellbeing',   c.wellbeing.pts);
+    }
+
+    // Retrieve last wellbeing score from localStorage (set by wellbeing banner)
+    const wbStored = localStorage.getItem('vyve_wb_last');
+    const lastWb   = wbStored ? (JSON.parse(wbStored).score || null) : null;
+
+    // Render with placeholder streaks now; re-render after streaks load
+    const initialScore = computeEngagementScore(m, {}, lastWb);
+    renderEngagementScore(initialScore, initialScore.components);
 
     // Progress track totals
     const habits   = parseInt(m['Habits'])    || 0;
@@ -599,7 +789,11 @@ async function loadDashboard() {
     setStreak('habits',   'habits');
     setStreak('workout',  'workouts');
     setStreak('cardio',   'cardio');
-    setStreak('sessions', 'checkins'); // sessions streak not yet tracked
+    setStreak('sessions', 'checkins');
+
+    // Re-render engagement score now we have real streak data
+    const finalScore = computeEngagementScore(m, streaks, lastWb);
+    renderEngagementScore(finalScore, finalScore.components);
 
     // Check-ins elite track
     document.getElementById('checkins-count').textContent    = checkins;
@@ -668,6 +862,114 @@ function waitForAuth(attempts) {
 waitForAuth(0);
 updateCountdown();
 setInterval(updateCountdown, 1000);
+</script>
+<!-- WELLBEING BANNER -->
+<div class="wb-banner" id="wb-banner" aria-live="polite">
+  <div class="wb-inner">
+    <div class="wb-header">
+      <div class="wb-title" id="wb-title">How are you feeling this week?</div>
+      <button class="wb-dismiss" id="wb-dismiss" aria-label="Dismiss">✕</button>
+    </div>
+    <div class="wb-sub">Takes 5 seconds — logged privately to your wellbeing record.</div>
+    <div class="wb-score-display">
+      <div class="wb-score-val" id="wb-val">5</div>
+      <div class="wb-score-mood" id="wb-mood">Okay</div>
+    </div>
+    <div class="wb-slider-wrap">
+      <input type="range" class="wb-slider" id="wb-slider" min="1" max="10" value="5" step="1">
+      <div class="wb-scale"><span>1 · Struggling</span><span>10 · Thriving</span></div>
+    </div>
+    <button class="wb-submit" id="wb-submit">Log my score →</button>
+    <div class="wb-confirm" id="wb-confirm">✅ Logged — see you next week!</div>
+  </div>
+</div>
+
+<script>
+// ── WELLBEING BANNER ─────────────────────────────────────
+(function() {
+  const STORAGE_KEY = 'vyve_wb_last';
+  const SEVEN_DAYS  = 7 * 24 * 60 * 60 * 1000;
+  const WB_API      = 'https://script.google.com/macros/s/AKfycbwPr0NJgDuZn5TPdCO16fLgc_LGiIGOcosmslRnoJdj861E37sYTW7O0TJOVx8f1Hs/exec';
+
+  const banner   = document.getElementById('wb-banner');
+  const slider   = document.getElementById('wb-slider');
+  const valEl    = document.getElementById('wb-val');
+  const moodEl   = document.getElementById('wb-mood');
+  const submitBtn= document.getElementById('wb-submit');
+  const confirmEl= document.getElementById('wb-confirm');
+  const dismissBtn=document.getElementById('wb-dismiss');
+  const titleEl  = document.getElementById('wb-title');
+
+  const MOODS = {1:'Struggling',2:'Very low',3:'Low',4:'Below average',5:'Okay',6:'Fairly good',7:'Good',8:'Very good',9:'Great',10:'Thriving 🌟'};
+
+  // Day-aware copy
+  const day = new Date().getDay(); // 0=Sun,1=Mon...5=Fri
+  titleEl.textContent =
+    day === 1 ? 'New week — how are you going into it?' :
+    day === 5 ? 'How has your week been?' :
+    'How are you feeling this week?';
+
+  // Slider live update
+  slider.addEventListener('input', () => {
+    const v = slider.value;
+    valEl.textContent  = v;
+    moodEl.textContent = MOODS[v] || '';
+    // Update track fill colour
+    slider.style.background = `linear-gradient(to right, var(--teal) 0%, var(--teal) ${(v-1)/9*100}%, rgba(255,255,255,0.12) ${(v-1)/9*100}%, rgba(255,255,255,0.12) 100%)`;
+  });
+
+  // Dismiss — suppress for rest of this calendar week
+  dismissBtn.addEventListener('click', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), dismissed: true }));
+    banner.classList.remove('visible');
+  });
+
+  // Submit
+  submitBtn.addEventListener('click', async () => {
+    const score = parseInt(slider.value);
+    const email = (window.vyveCurrentUser && window.vyveCurrentUser.email) || '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+    try {
+      await fetch(WB_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'wellbeing', email, score, week: getISOWeek(new Date()) }),
+        mode: 'no-cors'
+      });
+    } catch(e) { /* best effort — log locally regardless */ }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), score, dismissed: false }));
+    submitBtn.style.display = 'none';
+    confirmEl.style.display = 'block';
+    setTimeout(() => banner.classList.remove('visible'), 2200);
+  });
+
+  // ISO week helper
+  function getISOWeek(d) {
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  }
+
+  // Show banner if not logged in last 7 days
+  function maybeShowBanner() {
+    const raw  = localStorage.getItem(STORAGE_KEY);
+    const data = raw ? JSON.parse(raw) : null;
+    const age  = data ? Date.now() - data.ts : Infinity;
+    if (!data || age > SEVEN_DAYS) {
+      setTimeout(() => banner.classList.add('visible'), 2500); // 2.5s delay after page load
+    }
+  }
+
+  // Wait for auth before showing
+  function waitAndShow(attempts) {
+    if (window.vyveCurrentUser || attempts > 20) { maybeShowBanner(); return; }
+    setTimeout(() => waitAndShow(attempts + 1), 100);
+  }
+  waitAndShow(0);
+})();
 </script>
 </div><!-- #app -->
 </body>
