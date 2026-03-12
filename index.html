@@ -110,6 +110,8 @@ main{position:relative;z-index:1;padding-top:64px}
 .score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
 .score-bar-val{font-size:0.62rem;font-weight:700;color:var(--muted);width:24px;text-align:right;flex-shrink:0}
+.wb-update-link{display:block;text-align:center;margin-top:10px;font-size:0.68rem;font-weight:500;color:var(--teal-lt);cursor:pointer;opacity:0.7;transition:opacity 0.2s;text-decoration:underline;text-underline-offset:2px}
+.wb-update-link:hover{opacity:1}
 
 /* LIVE BANNER — now two rows: Live Now + Up Next */
 .session-banners{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
@@ -395,6 +397,7 @@ main{position:relative;z-index:1;padding-top:64px}
             <div class="score-bar-val" id="sv-wellbeing">—</div>
           </div>
         </div>
+        <span class="wb-update-link" id="wb-update-trigger">Update wellbeing score</span>
       </div>
     </div>
   </div>
@@ -961,6 +964,19 @@ setInterval(updateCountdown, 1000);
     date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
     return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  }
+
+  // Manual trigger — always opens banner regardless of last log date
+  const trigger = document.getElementById('wb-update-trigger');
+  if (trigger) {
+    trigger.addEventListener('click', () => {
+      // Reset submit button in case previously used
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Log my score →';
+      submitBtn.style.display = '';
+      confirmEl.style.display = 'none';
+      banner.classList.add('visible');
+    });
   }
 
   // Show banner if not logged in last 7 days
