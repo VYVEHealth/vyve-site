@@ -106,10 +106,10 @@ main{position:relative;z-index:1;padding-top:64px}
 .hero-score-band{font-size:0.75rem;font-weight:700;letter-spacing:0.06em;color:var(--teal-xl);margin-bottom:12px}
 .hero-score-bars{display:flex;flex-direction:column;gap:5px;text-align:left}
 .score-bar-row{display:flex;align-items:center;gap:8px}
-.score-bar-label{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);width:60px;flex-shrink:0}
+.score-bar-label{font-size:0.56rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);width:52px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
-.score-bar-val{font-size:0.65rem;font-weight:700;color:var(--muted);width:28px;text-align:right;flex-shrink:0}
+.score-bar-val{font-size:0.62rem;font-weight:700;color:var(--muted);width:24px;text-align:right;flex-shrink:0}
 
 /* LIVE BANNER — now two rows: Live Now + Up Next */
 .session-banners{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
@@ -316,6 +316,14 @@ main{position:relative;z-index:1;padding-top:64px}
   font-size:1rem;font-weight:600;color:#4ade80;display:none;
 }
 
+@media(max-width:640px){
+  .hero{grid-template-columns:1fr;gap:20px}
+  .hero-score-badge{min-width:unset;width:100%}
+  .hero-score-ring{width:80px;height:80px;margin-bottom:8px}
+  .hero-score-ring svg{width:80px;height:80px}
+  .hero-score-num{font-size:1.7rem}
+  .hero-name{font-size:1.9rem}
+}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .session-banners{animation:fadeUp 0.5s 0.1s ease both}
 .tracks-grid{animation:fadeUp 0.5s 0.2s ease both}
