@@ -674,7 +674,8 @@ async function loadDashboard() {
     const avatarEl = document.getElementById('nav-avatar'); if(avatarEl) avatarEl.textContent = initials;
 
     // Days inactive — used for hero sub-text and engagement score
-    const daysInactive = parseInt(m['days_inactive']) || 0;
+    const daysInactive  = parseInt(m['days_inactive'])   || 0;
+    const daysActive30  = parseInt(m['days_active_30'])  || 0;
 
     // Hero sub-text
     document.getElementById('hero-sub').textContent =
