@@ -1,184 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Case Study — VYVE Health</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VYVE — How-To Videos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="auth.js" defer></script>
 
+<style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}
+    body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+    #app{display:none}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,26,26,0.96);backdrop-filter:blur(8px);z-index:10}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--accent)}
+    .nav-right{display:flex;align-items:center;gap:1rem}
+    .back-link{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+    .back-link:hover{color:var(--accent)}
+    .logout-btn{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:0.3rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s}
+    .logout-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .page-hero{padding:2.5rem 2rem 2rem;background:linear-gradient(135deg,var(--dark) 0%,#0d2020 100%);border-bottom:1px solid var(--border)}
+    .eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);letter-spacing:0.04em;line-height:0.9;color:var(--fg)}
+    .page-sub{font-size:0.85rem;color:rgba(240,244,244,0.5);margin-top:0.8rem;max-width:480px;line-height:1.6}
+    .coming-section{padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-bottom:1px solid var(--border)}
+    .coming-icon{font-size:4rem;margin-bottom:1.2rem}
+    .coming-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.6rem}
+    .coming-sub{font-size:0.85rem;color:var(--muted);line-height:1.7;max-width:380px}
+    .topic-grid{padding:2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+    .topic-card{background:var(--bg);padding:1.4rem;display:flex;flex-direction:column;gap:0.5rem}
+    .topic-icon{font-size:1.4rem}
+    .topic-title{font-size:0.88rem;font-weight:500;color:var(--fg)}
+    .topic-desc{font-size:0.75rem;color:var(--muted);line-height:1.5}
+    .topic-badge{display:inline-block;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:100px;padding:0.15rem 0.5rem;margin-top:0.3rem}
+    footer{padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;background:var(--dark)}
+    footer span{font-size:0.7rem;color:var(--muted)}
+    @media(max-width:600px){nav,.page-hero,.coming-section,footer{padding-left:1.2rem;padding-right:1.2rem}.topic-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<nav class="nav" id="nav">
-  <div class="nav__inner">
-    <a href="index.html" class="nav__logo">
-    <div class="nav__logo-mark">
-      <svg viewBox="0 0 32 32" width="18" height="18" fill="none"><path d="M6 8 L16 22 L26 8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div id="app">
+  <nav>
+    <span class="logo">VYVE</span>
+    <div class="nav-right">
+      <a href="https://sessions.vyvehealth.co.uk" class="back-link">← Home</a>
+      <button class="logout-btn" id="logoutBtn">Sign out</button>
     </div>
-    <span class="nav__logo-name">VYVE<span> Health</span></span>
-  </a>
-    <div class="nav__links">
-      <a href="employers.html" class="nav__link">Why VYVE</a>
-      <a href="corp-pricing.html" class="nav__link">Pricing</a>
-      <a href="corp-casestudy.html" class="nav__link">Case Study</a>
-      <a href="science.html" class="nav__link">The Science</a>
-      <a href="about.html" class="nav__link">About</a>
-    </div>
-    <a href="corp-demo.html" class="btn btn--primary btn--sm nav__cta">Book a Demo</a>
-    <button class="nav__mobile" onclick="document.getElementById('nav').classList.toggle('open')">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
+  </nav>
+  <div class="page-hero">
+    <div class="eyebrow">Member Resources</div>
+    <div class="page-title">🎬 How-To<br>Videos</div>
+    <p class="page-sub">Step-by-step video guides to help you get the most from your VYVE membership.</p>
   </div>
-</nav>
-
-<section style="background:var(--dark);padding:80px 0 64px">
-  <div class="container--narrow" style="text-align:center">
-    <span class="eyebrow" style="color:var(--teal-lt);display:block;margin-bottom:16px">Client Case Study</span>
-    <h1 class="display" style="color:white;margin-bottom:18px">An 8-week pilot.<br>A contract signed within the month.</h1>
-    <p class="lead" style="color:rgba(255,255,255,0.7);max-width:520px;margin:0 auto 28px">A 250-person professional services firm. An EAP nobody used. And a wellbeing programme that finally worked.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <span class="pill pill--white">Professional Services</span>
-      <span class="pill pill--white">250 Employees</span>
-      <span class="pill pill--white">8-Week Pilot</span>
-    </div>
+  <div class="coming-section">
+    <div class="coming-icon">🎬</div>
+    <div class="coming-title">Coming Soon</div>
+    <p class="coming-sub">Video guides are being recorded and will be available here shortly. In the meantime, check the PDF guides for everything you need to get started.</p>
   </div>
-</section>
-
-<section class="section">
-  <div class="container--narrow">
-    <span class="eyebrow">The Challenge</span>
-    <h2 class="headline" style="color:var(--dark);margin:14px 0 20px">Spending on wellbeing. Seeing nothing back.</h2>
-    <p class="lead" style="margin-bottom:20px">The HR Director had a problem she couldn't ignore. Absence had risen to 11.2 days per employee — above the UK average. An EAP was in place, but fewer than 4% of employees had ever used it. A gym subsidy was available, but take-up sat below 15%.</p>
-    <p style="color:var(--body);line-height:1.8;margin-bottom:48px">The core issue: every existing benefit was reactive or passive. Nobody was proactively supporting employees day-to-day, and there was no data to tell the HR team who was struggling before it became an absence event.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px" class="stagger">
-      <div style="background:var(--teal);border-radius:14px;padding:28px;text-align:center">
-        <div style="font-family:var(--font-head);font-size:2.4rem;font-weight:700;color:white;line-height:1">11.2</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:8px">Absence days per employee</div>
-      </div>
-      <div style="background:var(--ink);border-radius:14px;padding:28px;text-align:center">
-        <div style="font-family:var(--font-head);font-size:2.4rem;font-weight:700;color:white;line-height:1">&lt;4%</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:8px">EAP utilisation rate</div>
-      </div>
-      <div style="background:var(--ink);border-radius:14px;padding:28px;text-align:center">
-        <div style="font-family:var(--font-head);font-size:2.4rem;font-weight:700;color:white;line-height:1">15%</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:8px">Gym subsidy take-up</div>
-      </div>
-      <div style="background:var(--ink);border-radius:14px;padding:28px;text-align:center">
-        <div style="font-family:var(--font-head);font-size:2.4rem;font-weight:700;color:white;line-height:1">£0</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:8px">Measurable ROI from existing spend</div>
-      </div>
-    </div>
-
-    <span class="eyebrow">What We Did</span>
-    <h2 class="headline" style="color:var(--dark);margin:14px 0 36px">8 weeks. Full programme. Real results.</h2>
-
-    <div style="display:flex;flex-direction:column;gap:0" class="fade-up">
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:20px;padding-bottom:28px">
-        <div style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem;flex-shrink:0">W1</div>
-          <div style="width:2px;background:var(--border);flex:1;margin-top:4px;min-height:16px"></div>
-        </div>
-        <div style="padding-top:10px"><p style="font-weight:700;color:var(--dark);margin-bottom:6px">Onboarding &amp; activation</p><p style="font-size:0.9rem;color:var(--body);line-height:1.7">All 250 employees invited. Kahunas app installed, initial health questionnaire completed. 61% activated within 7 days — well above industry benchmark for corporate wellness launches.</p></div>
-      </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:20px;padding-bottom:28px">
-        <div style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem;flex-shrink:0">W2</div>
-          <div style="width:2px;background:var(--border);flex:1;margin-top:4px;min-height:16px"></div>
-        </div>
-        <div style="padding-top:10px"><p style="font-weight:700;color:var(--dark);margin-bottom:6px">First live sessions</p><p style="font-size:0.9rem;color:var(--body);line-height:1.7">Daily habit tracking went live. The first cohort of live sessions ran — yoga, workouts, and a weekly mindfulness check-in. 89 employees attended their first live session in week two.</p></div>
-      </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:20px;padding-bottom:28px">
-        <div style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem;flex-shrink:0">W4</div>
-          <div style="width:2px;background:var(--border);flex:1;margin-top:4px;min-height:16px"></div>
-        </div>
-        <div style="padding-top:10px"><p style="font-weight:700;color:var(--dark);margin-bottom:6px">Mid-point pulse</p><p style="font-size:0.9rem;color:var(--body);line-height:1.7">Wellbeing score: 6.8/10 — up from a baseline of 5.4. Daily habit completion rate hit 73% among active members. First 30-habit certificates issued.</p></div>
-      </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:20px">
-        <div style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--teal-deep);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem;flex-shrink:0">W8</div>
-        </div>
-        <div style="padding-top:10px"><p style="font-weight:700;color:var(--dark);margin-bottom:6px">Results &amp; renewal</p><p style="font-size:0.9rem;color:var(--body);line-height:1.7">Programme review with the HR Director and CFO. Results presented. 12-month contract signed within two weeks of the review meeting.</p></div>
-      </div>
-    </div>
-
-    <div class="callout fade-up" style="margin-top:48px">
-      <p class="callout__text">"We've tried gym subsidies, an EAP, even a mindfulness app. VYVE is the first thing where people are actually using it — and we can see exactly who's engaging and who we need to reach. The data alone is worth the investment."</p>
-      <p class="callout__attr">— HR Director, Professional Services Firm (name withheld)</p>
-    </div>
-
-    <div style="margin-top:56px">
-      <span class="eyebrow">The Results</span>
-      <h2 class="headline" style="color:var(--dark);margin:14px 0 32px">8 weeks. The numbers speak.</h2>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px" class="stagger">
-        <div style="background:var(--teal-whisp);border:1px solid var(--teal-pale);border-radius:14px;padding:32px">
-          <div style="font-family:var(--font-head);font-size:2.8rem;font-weight:700;color:var(--teal);line-height:1;margin-bottom:8px">61%</div>
-          <p style="font-size:0.9rem;color:var(--body)">Employee activation rate within 7 days of launch</p>
-        </div>
-        <div style="background:var(--teal-whisp);border:1px solid var(--teal-pale);border-radius:14px;padding:32px">
-          <div style="font-family:var(--font-head);font-size:2.8rem;font-weight:700;color:var(--teal);line-height:1;margin-bottom:8px">+1.4</div>
-          <p style="font-size:0.9rem;color:var(--body)">Point rise in average wellbeing score (5.4 → 6.8 out of 10)</p>
-        </div>
-        <div style="background:var(--teal-whisp);border:1px solid var(--teal-pale);border-radius:14px;padding:32px">
-          <div style="font-family:var(--font-head);font-size:2.8rem;font-weight:700;color:var(--teal);line-height:1;margin-bottom:8px">73%</div>
-          <p style="font-size:0.9rem;color:var(--body)">Daily habit completion rate among active members</p>
-        </div>
-        <div style="background:var(--dark);border-radius:14px;padding:32px">
-          <div style="font-family:var(--font-head);font-size:2.8rem;font-weight:700;color:var(--teal-lt);line-height:1;margin-bottom:8px">£31k</div>
-          <p style="font-size:0.9rem;color:var(--teal-pale)">Projected year-one absence saving on a conservative 25% reduction basis</p>
-        </div>
-      </div>
-    </div>
+  <div class="topic-grid">
+    <div class="topic-card"><div class="topic-icon">📱</div><div class="topic-title">Getting Started</div><div class="topic-desc">How to set up your account and access all your sessions.</div><span class="topic-badge">Coming soon</span></div>
+    <div class="topic-card"><div class="topic-icon">🏋️</div><div class="topic-title">Using the App</div><div class="topic-desc">Navigating Kahunas and logging your daily activity.</div><span class="topic-badge">Coming soon</span></div>
+    <div class="topic-card"><div class="topic-icon">📅</div><div class="topic-title">Calendar Setup</div><div class="topic-desc">Adding VYVE sessions to your personal calendar.</div><span class="topic-badge">Coming soon</span></div>
+    <div class="topic-card"><div class="topic-icon">🎯</div><div class="topic-title">Setting Goals</div><div class="topic-desc">How to use habit tracking and set weekly targets.</div><span class="topic-badge">Coming soon</span></div>
+    <div class="topic-card"><div class="topic-icon">💬</div><div class="topic-title">Community Features</div><div class="topic-desc">Joining group sessions and connecting with teammates.</div><span class="topic-badge">Coming soon</span></div>
+    <div class="topic-card"><div class="topic-icon">🏆</div><div class="topic-title">Challenges & Rewards</div><div class="topic-desc">How streaks, certificates and prizes work.</div><span class="topic-badge">Coming soon</span></div>
   </div>
-</section>
-
-<div class="cta-band">
-  <div class="container" style="position:relative;z-index:1;text-align:center">
-    <p class="display" style="color:white;margin-bottom:16px">What could this look like<br>for your organisation?</p>
-    <div class="cta-band__btns">
-      <a href="vyve-roi-calculator.html" class="btn btn--white btn--lg">Calculate Your ROI</a>
-      <a href="corp-demo.html" class="btn btn--ghost btn--lg">Book a Demo</a>
-    </div>
-  </div>
+  <footer><span>© 2026 VYVE Health</span></footer>
 </div>
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer__grid">
-      <div>
-        <div class="nav__logo" style="margin-bottom:14px">
-          <div class="nav__logo-mark"><svg viewBox="0 0 32 32" width="18" height="18" fill="none"><path d="M6 8 L16 22 L26 8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <span class="footer__logo-name">VYVE<span> Health</span></span>
-        </div>
-        <p class="footer__tagline">Building health before it breaks. Proactive wellbeing for people and the organisations they work for.</p>
-      </div>
-      <div><p class="footer__col-title">For Employers</p><ul class="footer__links">
-          <li><a href="employers.html">Why VYVE</a></li>
-          <li><a href="corp-pricing.html">Pricing</a></li>
-          <li><a href="corp-casestudy.html">Case Study</a></li>
-          <li><a href="corp-demo.html">Book a Demo</a></li>
-        </ul></div>
-      <div><p class="footer__col-title">Company</p><ul class="footer__links">
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="science.html">The Science</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">GDPR &amp; Data</a></li>
-      </ul></div>
-      <div><p class="footer__col-title">Get Started</p><ul class="footer__links">
-        <li><a href="corp-demo.html">Book a Demo</a></li>
-        <li><a href="https://online.vyvehealth.co.uk">Member Portal</a></li>
-        <li><a href="mailto:team@vyvehealth.co.uk">Contact Us</a></li>
-      </ul></div>
-    </div>
-    <div class="footer__bottom">
-      <p class="footer__copy">© 2026 VYVE Health Ltd. All rights reserved. Registered in England &amp; Wales.</p>
-      <div class="footer__badges">
-        <span class="footer__badge">GDPR Compliant</span>
-        <span class="footer__badge">UK Data</span>
-        <span class="footer__badge">ISO-Ready</span>
-      </div>
-    </div>
-  </div>
-</footer>
-<script src="gen.js"></script>
-</body></html>
+</body>
+</html>

@@ -3,164 +3,59 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VYVE — Guides & Resources</title>
+  <title>VYVE — Events & Run Club (Replays)</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <script src="auth.js" defer></script>
-
-<style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}
-    body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
-    #app{display:none}
-    nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,26,26,0.96);backdrop-filter:blur(8px);z-index:10}
-    .logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--accent)}
-    .nav-right{display:flex;align-items:center;gap:1rem}
-    .back-link{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
-    .back-link:hover{color:var(--accent)}
-    .logout-btn{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:0.3rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s}
-    .logout-btn:hover{border-color:var(--accent);color:var(--accent)}
-    .page-hero{padding:2.5rem 2rem 2rem;background:linear-gradient(135deg,var(--dark) 0%,#0d2020 100%);border-bottom:1px solid var(--border)}
-    .eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}
-    .page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);letter-spacing:0.04em;line-height:0.9;color:var(--fg)}
-    .page-sub{font-size:0.85rem;color:rgba(240,244,244,0.5);margin-top:0.8rem;max-width:480px;line-height:1.6}
-    /* PDF GRID */
-    .pdf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-    .pdf-card{background:var(--bg);padding:1.6rem;display:flex;flex-direction:column;gap:0.8rem;transition:background 0.2s;position:relative;overflow:hidden}
-    .pdf-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--accent);transition:height 0.25s ease}
-    .pdf-card:hover{background:var(--card)}
-    .pdf-card:hover::before{height:100%}
-    .pdf-card-top{display:flex;align-items:flex-start;gap:1rem}
-    .pdf-icon{width:44px;height:56px;background:var(--dark);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;position:relative}
-    .pdf-icon::after{content:'PDF';position:absolute;bottom:4px;font-size:0.44rem;letter-spacing:0.08em;color:var(--accent);font-family:'DM Sans',sans-serif}
-    .pdf-info{flex:1}
-    .pdf-title{font-size:0.92rem;font-weight:500;color:var(--fg);line-height:1.3;margin-bottom:0.3rem}
-    .pdf-desc{font-size:0.75rem;color:var(--muted);line-height:1.5}
-    .pdf-meta{display:flex;align-items:center;justify-content:space-between}
-    .pdf-size{font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
-    .pdf-download{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(122,184,184,0.3);padding:0.3rem 0.75rem;border-radius:100px;transition:all 0.2s}
-    .pdf-download:hover{background:rgba(122,184,184,0.1);border-color:var(--accent)}
-    .pdf-coming{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:0.3rem 0.75rem;border-radius:100px}
-    footer{padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;background:var(--dark)}
-    footer span{font-size:0.7rem;color:var(--muted)}
-    @media(max-width:600px){nav,.page-hero,footer{padding-left:1.2rem;padding-right:1.2rem}.pdf-grid{grid-template-columns:1fr}}
-  </style>
+<script src="tracking.js" defer></script>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0a1a1a;--fg:#f0f4f4;--accent:#7ab8b8;--dark:#0d2b2b;--muted:#4a7a7a;--border:#122222;--card:#0d2020}body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}#app{display:none}nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,26,26,0.96);backdrop-filter:blur(8px);z-index:10}.logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--accent)}.nav-right{display:flex;align-items:center;gap:1rem}.back-link{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}.back-link:hover{color:var(--accent)}.logout-btn{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border);padding:0.3rem 0.8rem;border-radius:100px;cursor:pointer;transition:all 0.15s}.logout-btn:hover{border-color:var(--accent);color:var(--accent)}.page-hero{padding:2.5rem 2rem 2rem;background:linear-gradient(135deg,var(--dark) 0%,#0d2020 100%);border-bottom:1px solid var(--border)}.eyebrow{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);letter-spacing:0.04em;line-height:0.9;color:var(--fg)}.page-sub{font-size:0.82rem;color:rgba(240,244,244,0.5);margin-top:0.7rem;line-height:1.6}.player-section{padding:2rem;border-bottom:1px solid var(--border)}.player-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#000;margin-bottom:1.5rem}.videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden}.video-thumb{background:var(--bg);padding:1rem;cursor:pointer;transition:background 0.2s;border:none;text-align:left;width:100%;color:var(--fg)}.video-thumb:hover{background:var(--card)}.thumb-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;background:var(--dark);margin-bottom:0.6rem;display:block}.thumb-title{font-size:0.8rem;color:var(--fg);line-height:1.4;margin-bottom:0.3rem}.thumb-date{font-size:0.65rem;color:var(--muted)}.loading-state{padding:3rem 2rem;text-align:center}.loading-text{font-size:0.78rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}.empty-state{padding:3rem 2rem;text-align:center;border:1px solid var(--border);border-radius:8px}.empty-icon{font-size:2.5rem;margin-bottom:0.8rem}.empty-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.4rem}.empty-sub{font-size:0.78rem;color:var(--muted);line-height:1.6}.live-link-section{padding:1.5rem 2rem;border-bottom:1px solid var(--border)}.live-link{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.5rem 1rem;border-radius:100px;transition:all 0.2s}.live-link:hover{border-color:var(--accent);color:var(--accent)}footer{padding:1.2rem 2rem;background:var(--dark)}footer span{font-size:0.7rem;color:var(--muted)}</style>
 </head>
 <body>
 <div id="app">
-  <nav>
-    <span class="logo">VYVE</span>
-    <div class="nav-right">
-      <a href="https://sessions.vyvehealth.co.uk" class="back-link">← Home</a>
-      <button class="logout-btn" id="logoutBtn">Sign out</button>
-    </div>
-  </nav>
-  <div class="page-hero">
-    <div class="eyebrow">Member Resources</div>
-    <div class="page-title">📄 Guides &<br>Resources</div>
-    <p class="page-sub">Everything you need to make the most of your VYVE membership — downloadable and ready to go.</p>
+  <nav><span class="logo">VYVE</span><div class="nav-right"><a href="sessions.html" class="back-link">← All Sessions</a><button class="logout-btn" id="logoutBtn">Sign out</button></div></nav>
+  <div class="page-hero"><div class="eyebrow">Session Replays</div><div class="page-title">🏃 Events & Run Club</div><p class="page-sub">Missed a session? Watch back at any time.</p></div>
+  <div class="player-section">
+    <div class="player-wrap" id="mainPlayer"><div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;background:var(--dark)"><div style="font-size:2rem">🏃</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--muted);letter-spacing:0.06em">Select a video below</div></div></div>
+    <div id="videoContainer"><div class="loading-state"><div class="loading-text">Loading replays...</div></div></div>
   </div>
-
-  <div class="pdf-grid" id="pdfGrid">
-    <!-- TO ADD A PDF:
-      1. Upload the PDF to Netlify (drag into the site folder alongside these HTML files)
-      2. Copy a pdf-card block below
-      3. Update the title, description, size
-      4. Change the pdf-coming span to a pdf-download anchor:
-         <a href="/your-file.pdf" download class="pdf-download">
-           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-           Download
-         </a>
-    -->
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Welcome to VYVE</div>
-          <div class="pdf-desc">Everything you need to know to get started with your membership.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <a href="/welcome-to-vyve.pdf" download class="pdf-download">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download
-        </a>
-      </div>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">App Setup Guide</div>
-          <div class="pdf-desc">Step-by-step guide to setting up and using the Kahunas app.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <span class="pdf-coming">Coming soon</span>
-      </div>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Session Programme</div>
-          <div class="pdf-desc">Your full weekly schedule — what's on, when, and how to join.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <span class="pdf-coming">Coming soon</span>
-      </div>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Habit Tracking Guide</div>
-          <div class="pdf-desc">How to log habits daily and build your streak for rewards.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <span class="pdf-coming">Coming soon</span>
-      </div>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Charity Impact Overview</div>
-          <div class="pdf-desc">How your activity supports our charity partners and earns donations.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <span class="pdf-coming">Coming soon</span>
-      </div>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-top">
-        <div class="pdf-icon">📄</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Nutrition & Wellbeing Tips</div>
-          <div class="pdf-desc">Simple evidence-based guidance to support your wellness journey.</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <span class="pdf-size">PDF Guide</span>
-        <span class="pdf-coming">Coming soon</span>
-      </div>
-    </div>
-
-  </div>
+  <div class="live-link-section"><a href="events-live.html" class="live-link"><span style="width:7px;height:7px;border-radius:50%;background:#ff4040;display:inline-block"></span> Join next live session</a></div>
   <footer><span>© 2026 VYVE Health</span></footer>
 </div>
+<script>
+(function() {
+  var PLAYLIST_ID = 'PLyaCafiXVssiPt5whqWDiK0EVTMYxbCyh';
+  var API_KEY = 'AIzaSyBSahbwKcchqnCeILJRn-ePYL-tU0Q05k8';
+  var ICON = '🏃';
+  function loadVideos() {
+    var container = document.getElementById('videoContainer');
+    fetch('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=' + PLAYLIST_ID + '&key=' + API_KEY)
+      .then(function(r){return r.json();})
+      .then(function(data) {
+        if (!data.items || data.items.length === 0) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + ICON + '</div><div class="empty-text">No replays yet</div><div class="empty-sub">Sessions will appear here after they go live. Check back soon.</div></div>';
+          return;
+        }
+        var grid = document.createElement('div'); grid.className = 'videos-grid';
+        data.items.forEach(function(item) {
+          var vid = item.snippet.resourceId.videoId;
+          var title = item.snippet.title;
+          var thumb = (item.snippet.thumbnails && item.snippet.thumbnails.medium) ? item.snippet.thumbnails.medium.url : '';
+          var date = new Date(item.snippet.publishedAt).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+          var btn = document.createElement('button'); btn.className = 'video-thumb';
+          btn.innerHTML = '<img class="thumb-img" src="' + thumb + '" alt="' + title + '" loading="lazy"/><div class="thumb-title">' + title + '</div><div class="thumb-date">' + date + '</div>';
+          btn.onclick = function() {
+            document.getElementById('mainPlayer').innerHTML = '<iframe src="https://www.youtube.com/embed/' + vid + '?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>';
+            document.getElementById('mainPlayer').scrollIntoView({behavior:'smooth'});
+          };
+          grid.appendChild(btn);
+        });
+        container.innerHTML = ''; container.appendChild(grid);
+      })
+      .catch(function() {
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + ICON + '</div><div class="empty-text">No replays yet</div><div class="empty-sub">Sessions will appear here after they go live.</div></div>';
+      });
+  }
+  loadVideos();
+})();
+</script>
 </body>
 </html>
