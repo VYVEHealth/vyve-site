@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Science — VYVE Health</title>
+<meta name="description" content="VYVE Health is grounded in independent research — Deloitte, CIPD, ONS, and peer-reviewed behavioural science. See the evidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/><path d="M12 12l-4-2.5M12 12l4-2.5M12 12v5" stroke-linecap="round"/></svg>
+      </div>
+      <span class="nav__logo-text">VYVE<span> Health</span></span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html" class="nav__link">Home</a>
+      <a href="employers.html" class="nav__link employer">For Employers</a>
+      <a href="individuals.html" class="nav__link individual">For Individuals</a>
+      <a href="science.html" class="nav__link active">Our Science</a>
+      <a href="about.html" class="nav__link">About</a>
+    </div>
+    <a href="employers.html#demo" class="btn btn--primary nav__cta">Book a Demo</a>
+    <button class="nav__mobile-btn" onclick="document.getElementById('nav').classList.toggle('open')" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="container">
+    <div class="breadcrumb__inner">
+      <a href="index.html">Home</a><span class="breadcrumb__sep">/</span>
+      <span>Our Science</span>
+    </div>
+  </div>
+</div>
+
+<section class="hero hero--about" style="padding:100px 0 80px">
+  <div class="container container--narrow" style="text-align:center">
+    <span class="label" style="color:var(--teal-md)">Our Science</span>
+    <h1 class="display" style="color:white;margin-bottom:24px">Not a hunch.<br>A body of proof.</h1>
+    <p class="lead" style="color:rgba(255,255,255,0.82);max-width:600px;margin:0 auto">Every aspect of VYVE is grounded in peer-reviewed research and the most current UK workplace data available. Here is the evidence that shapes everything we build.</p>
+  </div>
+</section>
+
+<!-- THREE TIER MODEL -->
+<section class="section">
+  <div class="container">
+    <div class="section__header">
+      <span class="label">The Three-Tier Evidence Model</span>
+      <h2 class="headline">The problem. The perception. The proof.</h2>
+      <p class="lead">Our evidence base is structured around three tiers — establishing the scale of the problem, understanding what employees think and need, and proving what happens when they get it.</p>
+    </div>
+    <div class="cards cards--3" style="gap:24px">
+      <div class="card card--dark fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="card__label">Tier 1</div>
+        <h3 class="card__title">The Scale of the Crisis</h3>
+        <p class="card__body">Independent data from CIPD, ONS, and Deloitte confirms the UK workplace wellbeing crisis is structural, urgent, and costing employers billions. This is the foundation of the VYVE case.</p>
+      </div>
+      <div class="card card--teal fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="card__label">Tier 2</div>
+        <h3 class="card__title">User Perception & Needs</h3>
+        <p class="card__body">Research reveals what employees actually value: personalisation, community, shared purpose, and measurable progress. Generic apps and reactive EAPs fail on every dimension.</p>
+      </div>
+      <div class="card fade-up" style="border-color:var(--teal)">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+        <div class="card__label">Tier 3</div>
+        <h3 class="card__title">Behavioural Evidence</h3>
+        <p class="card__body">What actually happens when people get access to good, community-powered wellbeing support — engagement rates, programme completion, ROI outcomes, and long-term behaviour change.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL EVIDENCE TABLE -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section__header">
+      <span class="label">Tier 1 — The Crisis</span>
+      <h2 class="headline">The UK workplace wellbeing data</h2>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="data-table" style="width:100%">
+      <thead><tr><th>Source</th><th>Finding</th><th>Implication for VYVE</th><th>Year</th></tr></thead>
+      <tbody>
+        <tr><td class="highlight">CIPD</td><td>9.4 days average absence per employee — highest in 12 years</td><td>Record absence = record opportunity for proactive intervention</td><td>2025</td></tr>
+        <tr><td class="highlight">CIPD</td><td>41% cite mental ill-health as their top cause of long-term absence</td><td>Mental health is the primary battlefield — VYVE addresses this directly</td><td>2025</td></tr>
+        <tr><td class="highlight">CIPD</td><td>37% of employers are purely reactive — no proactive wellbeing strategy</td><td>63% of the market is underserved — a clear commercial opportunity</td><td>2025</td></tr>
+        <tr><td class="highlight">CIPD</td><td>Only 29% of employers train managers to support mental health</td><td>VYVE's manager toolkit addresses a critical structural gap</td><td>2025</td></tr>
+        <tr><td class="highlight">CIPD</td><td>2.8 million people economically inactive due to long-term sickness</td><td>Scale of the problem extends beyond individual employers</td><td>2025</td></tr>
+        <tr><td class="highlight">ONS</td><td>148.9 million working days lost to sickness in 2024</td><td>Equivalent to every UK worker losing 4.4 days — a national productivity crisis</td><td>2024</td></tr>
+        <tr><td class="highlight">ONS</td><td>Long-term sickness = 32.2% of all economic inactivity</td><td>Prevention is economically critical — not just compassionate</td><td>2024</td></tr>
+        <tr><td class="highlight">Deloitte</td><td>Poor mental health costs UK employers £51 billion annually</td><td>VYVE's ROI case is straightforward — even 1% improvement = £510m saved</td><td>2024</td></tr>
+        <tr><td class="highlight">Deloitte</td><td>Presenteeism costs UK employers £24 billion per year</td><td>Presenteeism is invisible — only data-driven platforms like VYVE can address it</td><td>2024</td></tr>
+        <tr><td class="highlight">Deloitte</td><td>£4.70 returned per £1 invested in mental health at work</td><td>Wellbeing investment is not a cost — it's among the highest-ROI activities available</td><td>2024</td></tr>
+        <tr><td class="highlight">Deloitte</td><td>Proactive/universal interventions return £5.30 per £1 vs £4.10 for reactive</td><td>VYVE's proactive architecture delivers 29% better ROI than reactive alternatives</td><td>2024</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__header">
+      <span class="label">Tier 2 & 3 — What Works</span>
+      <h2 class="headline">The behavioural science behind VYVE</h2>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="data-table" style="width:100%">
+      <thead><tr><th>Source</th><th>Finding</th><th>How VYVE Uses This</th></tr></thead>
+      <tbody>
+        <tr><td class="highlight">McKinsey Health Institute (2023)</td><td>Digital health platforms with community features generate 4x higher long-term engagement vs solo apps</td><td>Community sub-groups and shared challenges are core to VYVE's architecture</td></tr>
+        <tr><td class="highlight">Journal of Sport & Exercise Psychology (2023)</td><td>Group-based physical activity shows 26% higher adherence than individual programmes</td><td>VYVE sub-groups enable group exercise communities with shared training plans</td></tr>
+        <tr><td class="highlight">Beauchamp et al. (2020)</td><td>Belonging to an exercise group strengthens exercise identity — the factor most predictive of long-term behaviour change</td><td>Sub-groups are designed to foster belonging and identity, not just accountability</td></tr>
+        <tr><td class="highlight">BetterUp (2024)</td><td>Employees who set goals within a community context are 2.3x more likely to complete a programme</td><td>All VYVE challenges can be set with community and prosocial context</td></tr>
+        <tr><td class="highlight">Grant & Berry (2011)</td><td>Intrinsic prosocial motivation enhances persistence and performance — outperforming purely self-interested motivation</td><td>VYVE's charity mechanic creates a prosocial layer on every health behaviour</td></tr>
+        <tr><td class="highlight">Batson (2011)</td><td>Co-existence of self-interest and altruistic motivation is normal and healthy — most sustainable combination</td><td>VYVE is intentionally dual-motivational: personal benefit AND social contribution</td></tr>
+        <tr><td class="highlight">CIPD (2025)</td><td>54% of employees using wellbeing apps reported improved sleep or stress management</td><td>Validated by the same evidence base that confirms the absence crisis</td></tr>
+        <tr><td class="highlight">CIPD (2025)</td><td>39% of employees reported improved productivity after accessing mental health support</td><td>VYVE's ROI model is calibrated against this evidence</td></tr>
+        <tr><td class="highlight">Oja et al. (2015)</td><td>Running clubs and exercise communities linked to improved social cohesion, belonging, and mental wellbeing</td><td>VYVE in-person events and sub-group runs are grounded in this evidence</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICAL FRAMEWORK -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section__header">
+      <span class="label">Our Clinical Framework</span>
+      <h2 class="headline">Built on evidence-based therapeutic approaches</h2>
+    </div>
+    <div class="cards cards--3" style="gap:24px">
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+        <h3 class="card__title">Cognitive Behavioural Therapy (CBT)</h3>
+        <p class="card__body">CBT is the gold-standard, NICE-recommended approach for anxiety, depression, and stress. VYVE's NOVA and RIVER personas are informed by CBT principles — cognitive reframing, thought records, and behavioural experiments delivered in accessible, daily formats.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <h3 class="card__title">Acceptance & Commitment Therapy (ACT)</h3>
+        <p class="card__body">ACT focuses on psychological flexibility — accepting difficult thoughts and feelings while committing to values-driven action. VYVE's SPARK persona draws heavily on ACT for motivation, purpose, and long-term behaviour change.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <h3 class="card__title">Trauma-Informed Care</h3>
+        <p class="card__body">HAVEN, our crisis and grief support pathway, is built on trauma-informed principles — safety, trustworthiness, choice, collaboration, and empowerment. Seamless escalation pathways to qualified therapists are built into the architecture.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/></svg></div>
+        <h3 class="card__title">Behaviour Change Science</h3>
+        <p class="card__body">VYVE's habit-formation architecture draws on BJ Fogg's Tiny Habits framework, implementation intentions research, and the COM-B model of behaviour change — ensuring that engagement becomes habitual, not effortful.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3 class="card__title">Social Identity Theory</h3>
+        <p class="card__body">Tajfel & Turner's social identity theory explains why community matters: belonging to a group creates identity, and identity drives behaviour. VYVE's sub-group architecture is designed to create genuine health identities — not just temporary challenges.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="card__icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <h3 class="card__title">Positive Psychology</h3>
+        <p class="card__body">Seligman's PERMA model — Positive Emotion, Engagement, Relationships, Meaning, Achievement — is embedded in VYVE's programme design. Wellbeing is not the absence of illness; it is the presence of flourishing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALLOUT -->
+<section class="section section--dark">
+  <div class="container container--narrow">
+    <div class="callout">
+      <p class="callout__quote">"The most effective wellbeing interventions combine personalisation, community belonging, prosocial purpose, and evidence-based clinical frameworks. VYVE is the first platform to bring all of these together in a single, accessible, always-on product."</p>
+      <p class="callout__attr">— VYVE Health, Future State Vision v3 (2026)</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 class="display" style="color:white;margin-bottom:20px">See the evidence in action.</h2>
+    <p class="lead" style="color:var(--teal-md);margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto">Book a demo and we'll walk you through how VYVE's evidence-based design translates into measurable outcomes for your organisation.</p>
+    <div class="cta-section__btns">
+      <a href="employers.html#demo" class="btn btn--white btn--lg">Book a Demo</a>
+      <a href="about.html" class="btn btn--outline btn--lg" style="border-color:rgba(255,255,255,0.5);color:white">Our Story →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="nav__logo">
+          <div class="nav__logo-mark" style="background:#1B7878">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z"/></svg>
+          </div>
+          <span class="nav__logo-text" style="color:white">VYVE<span> Health</span></span>
+        </a>
+        <p class="footer__tagline" style="margin-top:16px">The UK's most complete proactive wellbeing platform — built for organisations, designed for people.</p>
+        <p class="footer__tagline" style="margin-top:12px;font-size:0.8rem">Every step you take makes someone's life better.</p>
+      </div>
+      <div>
+        <p class="footer__col-title">For Employers</p>
+        <ul class="footer__links">
+          <li><a href="employers.html">Overview</a></li>
+          <li><a href="employers.html#promise">Enterprise Promise</a></li>
+          <li><a href="employers.html#roi">ROI Model</a></li>
+          <li><a href="employers.html#ecosystem">Ecosystem</a></li>
+          <li><a href="employers.html#demo">Book a Demo</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">For Individuals</p>
+        <ul class="footer__links">
+          <li><a href="individuals.html">Overview</a></li>
+          <li><a href="individuals.html#personas">Your Persona</a></li>
+          <li><a href="individuals.html#community">Community</a></li>
+          <li><a href="individuals.html#pillars">10 Pillars</a></li>
+          <li><a href="individuals.html#charity">Social Mission</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">Company</p>
+        <ul class="footer__links">
+          <li><a href="science.html">Our Science</a></li>
+          <li><a href="about.html">About VYVE</a></li>
+          <li><a href="about.html#roadmap">Roadmap</a></li>
+          <li><a href="mailto:hello@vyvehealth.co.uk">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 VYVE Health. All rights reserved. Registered in England & Wales.</span>
+      <div class="footer__certifications">
+        <span class="footer__cert">GDPR Compliant</span>
+        <span class="footer__cert">ISO 27001 (Target)</span>
+        <span class="footer__cert">CIPD Partner</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+// Fade-up animations
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up, .fade-in').forEach(el => obs.observe(el));
+
+// Count-up animation
+function countUp(el) {
+  const target = parseFloat(el.dataset.target);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const steps = 60;
+  let count = 0;
+  const inc = target / steps;
+  const timer = setInterval(() => {
+    count = Math.min(count + inc, target);
+    el.textContent = prefix + (Number.isInteger(target) ? Math.round(count) : count.toFixed(1)) + suffix;
+    if(count >= target) clearInterval(timer);
+  }, duration / steps);
+}
+const cObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { countUp(e.target); cObs.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => cObs.observe(el));
+</script>
+</body></html>

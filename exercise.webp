@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corporate Pricing — VYVE Health</title>
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+    <div class="nav__logo-mark">
+      <svg viewBox="0 0 32 32" width="18" height="18" fill="none"><path d="M6 8 L16 22 L26 8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="nav__logo-name">VYVE<span> Health</span></span>
+  </a>
+    <div class="nav__links">
+      <a href="employers.html" class="nav__link">Why VYVE</a>
+      <a href="corp-pricing.html" class="nav__link">Pricing</a>
+      <a href="corp-casestudy.html" class="nav__link">Case Study</a>
+      <a href="science.html" class="nav__link">The Science</a>
+      <a href="about.html" class="nav__link">About</a>
+    </div>
+    <a href="corp-demo.html" class="btn btn--primary btn--sm nav__cta">Book a Demo</a>
+    <button class="nav__mobile" onclick="document.getElementById('nav').classList.toggle('open')">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section style="background:var(--dark);padding:80px 0 64px">
+  <div class="container" style="text-align:center">
+    <span class="eyebrow" style="color:var(--teal-lt);display:block;margin-bottom:16px">Transparent Pricing</span>
+    <h1 class="display" style="color:white;margin-bottom:18px">Simple pricing.<br>No hidden costs.</h1>
+    <p class="lead" style="color:rgba(255,255,255,0.7);max-width:500px;margin:0 auto">Per-employee monthly pricing that scales with your organisation. Every plan includes the full VYVE platform — no features locked behind upsells.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start" class="stagger">
+
+      <!-- Starter -->
+      <div style="background:var(--white);border:2px solid var(--border);border-radius:20px;padding:36px;transition:var(--transition)">
+        <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Starter</p>
+        <div style="font-family:var(--font-head);font-size:3.2rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px">£8<span style="font-size:1rem;font-weight:400;color:var(--muted)">/employee/mo</span></div>
+        <p style="font-size:0.85rem;color:var(--body);margin:12px 0 24px;line-height:1.6">For organisations getting started with structured wellbeing. Minimum 50 employees. Billed annually.</p>
+        <div style="height:1px;background:var(--border);margin-bottom:24px"></div>
+        <ul class="check-list" style="margin-bottom:28px">
+          <li>Full Kahunas app access</li>
+          <li>Daily habits &amp; weekly check-ins</li>
+          <li>Live &amp; replay sessions</li>
+          <li>Employer reporting dashboard</li>
+          <li>Onboarding &amp; setup support</li>
+          <li>Email &amp; chat support</li>
+        </ul>
+        <a href="corp-demo.html" class="btn btn--outline" style="width:100%;justify-content:center">Book a Demo</a>
+      </div>
+
+      <!-- Growth — featured -->
+      <div style="background:var(--dark);border:2px solid var(--teal);border-radius:20px;padding:36px;position:relative;transition:var(--transition)">
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--teal);color:white;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 18px;border-radius:20px;white-space:nowrap">Most Popular</div>
+        <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-lt);margin-bottom:14px">Growth</p>
+        <div style="font-family:var(--font-head);font-size:3.2rem;font-weight:700;color:white;line-height:1;margin-bottom:4px">£12<span style="font-size:1rem;font-weight:400;color:rgba(255,255,255,0.5)">/employee/mo</span></div>
+        <p style="font-size:0.85rem;color:var(--teal-pale);margin:12px 0 24px;line-height:1.6">For organisations serious about measurable outcomes. Minimum 50 employees. Billed annually.</p>
+        <div style="height:1px;background:rgba(255,255,255,0.1);margin-bottom:24px"></div>
+        <ul style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px">
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Everything in Starter</li>
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Monthly wellbeing pulse surveys</li>
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Advanced engagement analytics</li>
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Charity impact dashboard</li>
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Dedicated account manager</li>
+          <li style="display:flex;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85)"><span style="color:var(--teal-lt);font-weight:700;flex-shrink:0">✓</span>Quarterly business reviews</li>
+        </ul>
+        <a href="corp-demo.html" class="btn btn--primary" style="width:100%;justify-content:center">Book a Demo</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div style="background:var(--white);border:2px solid var(--border);border-radius:20px;padding:36px;transition:var(--transition)">
+        <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Enterprise</p>
+        <div style="font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px;padding-top:8px">Custom</div>
+        <p style="font-size:0.85rem;color:var(--body);margin:12px 0 24px;line-height:1.6">Bespoke pricing for large organisations requiring custom configuration, integrations, and dedicated support.</p>
+        <div style="height:1px;background:var(--border);margin-bottom:24px"></div>
+        <ul class="check-list" style="margin-bottom:28px">
+          <li>Everything in Growth</li>
+          <li>Custom onboarding journey</li>
+          <li>SSO &amp; HR system integration</li>
+          <li>White-label options available</li>
+          <li>SLA &amp; data processing agreement</li>
+          <li>On-site launch event</li>
+        </ul>
+        <a href="corp-demo.html" class="btn btn--dark" style="width:100%;justify-content:center">Talk to Us</a>
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-top:72px;max-width:720px;margin-left:auto;margin-right:auto" class="fade-up">
+      <h2 class="headline" style="margin-bottom:36px;text-align:center">Common questions</h2>
+      <div style="border-top:1px solid var(--border);padding:24px 0;border-bottom:1px solid var(--border)">
+        <p style="font-weight:600;color:var(--dark);margin-bottom:8px">Is there a minimum contract length?</p>
+        <p style="font-size:0.9rem;color:var(--body);line-height:1.75">Standard contracts are 12 months — the time needed to evidence genuine behaviour change. We offer a 30-day pilot for organisations wanting to validate engagement first.</p>
+      </div>
+      <div style="padding:24px 0;border-bottom:1px solid var(--border)">
+        <p style="font-weight:600;color:var(--dark);margin-bottom:8px">How is pricing calculated?</p>
+        <p style="font-size:0.9rem;color:var(--body);line-height:1.75">Per enrolled employee per month — not per active user. This keeps billing predictable and means you're investing in your whole workforce, not just the already-engaged.</p>
+      </div>
+      <div style="padding:24px 0;border-bottom:1px solid var(--border)">
+        <p style="font-weight:600;color:var(--dark);margin-bottom:8px">Where is our data stored?</p>
+        <p style="font-size:0.9rem;color:var(--body);line-height:1.75">All data is stored in the UK, GDPR-compliant, and never sold to third parties. Employer reporting is aggregate only — individual member data is never shared with HR teams.</p>
+      </div>
+      <div style="padding:24px 0">
+        <p style="font-weight:600;color:var(--dark);margin-bottom:8px">Can we start with a pilot?</p>
+        <p style="font-size:0.9rem;color:var(--body);line-height:1.75">Yes. We offer a structured 30-day pilot for teams of 25+. Book a call and we'll put together a proposal scoped to your organisation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="container" style="position:relative;z-index:1;text-align:center">
+    <p class="display" style="color:white;margin-bottom:16px">Build the business case first.</p>
+    <p class="lead" style="color:rgba(255,255,255,0.7);margin-bottom:40px;max-width:460px;margin-left:auto;margin-right:auto">Use our ROI calculator to model the return for your headcount before your first conversation.</p>
+    <div class="cta-band__btns">
+      <a href="vyve-roi-calculator.html" class="btn btn--white btn--lg">Calculate Your ROI</a>
+      <a href="corp-demo.html" class="btn btn--ghost btn--lg">Book a Demo</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="nav__logo" style="margin-bottom:14px">
+          <div class="nav__logo-mark"><svg viewBox="0 0 32 32" width="18" height="18" fill="none"><path d="M6 8 L16 22 L26 8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="footer__logo-name">VYVE<span> Health</span></span>
+        </div>
+        <p class="footer__tagline">Building health before it breaks. Proactive wellbeing for people and the organisations they work for.</p>
+      </div>
+      <div><p class="footer__col-title">For Employers</p><ul class="footer__links">
+          <li><a href="employers.html">Why VYVE</a></li>
+          <li><a href="corp-pricing.html">Pricing</a></li>
+          <li><a href="corp-casestudy.html">Case Study</a></li>
+          <li><a href="corp-demo.html">Book a Demo</a></li>
+        </ul></div>
+      <div><p class="footer__col-title">Company</p><ul class="footer__links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="science.html">The Science</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">GDPR &amp; Data</a></li>
+      </ul></div>
+      <div><p class="footer__col-title">Get Started</p><ul class="footer__links">
+        <li><a href="corp-demo.html">Book a Demo</a></li>
+        <li><a href="https://online.vyvehealth.co.uk">Member Portal</a></li>
+        <li><a href="mailto:team@vyvehealth.co.uk">Contact Us</a></li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2026 VYVE Health Ltd. All rights reserved. Registered in England &amp; Wales.</p>
+      <div class="footer__badges">
+        <span class="footer__badge">GDPR Compliant</span>
+        <span class="footer__badge">UK Data</span>
+        <span class="footer__badge">ISO-Ready</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="gen.js"></script>
+</body></html>
