@@ -272,9 +272,10 @@ main{position:relative;z-index:1;padding-top:64px}
 .logout-btn{font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:20px;cursor:pointer;transition:all 0.2s}
 .logout-btn:hover{border-color:var(--teal-lt);color:var(--teal-xl)}
 /* WELLBEING BANNER — slides up from bottom like native app prompt */
+/* Mobile: slide-up sheet */
 .wb-banner{
   position:fixed;bottom:0;left:0;right:0;z-index:200;
-  transform:translateY(100%);
+  transform:translateY(110%);
   transition:transform 0.4s cubic-bezier(0.34,1.4,0.64,1);
 }
 .wb-banner.visible{transform:translateY(0)}
@@ -286,6 +287,24 @@ main{position:relative;z-index:1;padding-top:64px}
   border-radius:20px 20px 0 0;
   padding:24px 28px 32px;
   box-shadow:0 -8px 40px rgba(0,0,0,0.5);
+}
+/* Desktop: centred floating modal */
+@media(min-width:641px){
+  .wb-banner{
+    bottom:auto;left:50%;right:auto;
+    top:50%;transform:translate(-50%,-40%) scale(0.95);
+    width:420px;opacity:0;pointer-events:none;
+    transition:transform 0.3s ease,opacity 0.3s ease;
+  }
+  .wb-banner.visible{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;pointer-events:all;
+  }
+  .wb-inner{
+    max-width:100%;
+    border-bottom:1px solid rgba(77,170,170,0.3);
+    border-radius:16px;
+  }
 }
 .wb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .wb-title{font-size:1rem;font-weight:700;color:var(--white)}
@@ -324,6 +343,11 @@ main{position:relative;z-index:1;padding-top:64px}
   text-align:center;padding:20px 0 4px;
   font-size:1rem;font-weight:600;color:#4ade80;display:none;
 }
+.wb-backdrop{
+  display:none;position:fixed;inset:0;z-index:199;
+  background:rgba(0,0,0,0.5);backdrop-filter:blur(2px);
+}
+.wb-backdrop.visible{display:block}
 
 @media(max-width:640px){
   .hero{grid-template-columns:1fr;gap:20px}
@@ -901,6 +925,7 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
 <!-- WELLBEING BANNER -->
+<div class="wb-backdrop" id="wb-backdrop"></div>
 <div class="wb-banner" id="wb-banner" aria-live="polite">
   <div class="wb-inner">
     <div class="wb-header">
@@ -929,6 +954,7 @@ setInterval(updateCountdown, 1000);
   const WB_API      = 'https://script.google.com/macros/s/AKfycbwJ9zjObfonNSrsFDZx5-aoYbzLs_KQSsxFItNADOtxqMIqdFLnZHxklGVBdSpZaiP0/exec';
 
   const banner   = document.getElementById('wb-banner');
+  const backdrop = document.getElementById('wb-backdrop');
   const slider   = document.getElementById('wb-slider');
   const valEl    = document.getElementById('wb-val');
   const moodEl   = document.getElementById('wb-mood');
@@ -956,9 +982,11 @@ setInterval(updateCountdown, 1000);
   });
 
   // Dismiss — suppress for rest of this calendar week
+  backdrop.addEventListener('click', () => { banner.classList.remove('visible'); backdrop.classList.remove('visible'); });
   dismissBtn.addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), dismissed: true }));
     banner.classList.remove('visible');
+    backdrop.classList.remove('visible');
   });
 
   // Submit
@@ -979,7 +1007,18 @@ setInterval(updateCountdown, 1000);
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), score, dismissed: false }));
     submitBtn.style.display = 'none';
     confirmEl.style.display = 'block';
-    setTimeout(() => banner.classList.remove('visible'), 2200);
+    setTimeout(() => { banner.classList.remove('visible'); backdrop.classList.remove('visible'); }, 2200);
+
+    // Re-render engagement score immediately with new wellbeing value
+    if (window.vyveLastMemberData) {
+      const updatedScore = computeEngagementScore(
+        window.vyveLastMemberData.member,
+        window.vyveLastMemberData.streaks,
+        score,
+        window.vyveLastMemberData.daysActive30
+      );
+      renderEngagementScore(updatedScore, updatedScore.components);
+    }
   });
 
   // ISO week helper
@@ -1037,7 +1076,7 @@ setInterval(updateCountdown, 1000);
       submitBtn.textContent = 'Log my score →';
       submitBtn.style.display = '';
       confirmEl.style.display = 'none';
-      banner.classList.add('visible');
+      banner.classList.add('visible'); backdrop.classList.add('visible');
     });
   }
 
