@@ -688,7 +688,7 @@ async function loadDashboard() {
     // Computed client-side from available data points.
     // Scores are additive: base(50) + activity(0-12.5) + consistency(0-12.5) + variety(0-12.5) + wellbeing(0-12.5)
 
-    function computeEngagementScore(data, streakData, lastWellbeing) {
+    function computeEngagementScore(data, streakData, lastWellbeing, daysActive30) {
       // 1. ACTIVITY — days active in last 30 (proxy: if active today daysInactive=0, assume reasonable activity)
       //    Best estimate from daysInactive: 0 days = very active, scale down from there
       const activityRaw  = Math.max(0, 30 - daysInactive); // days likely active in window
@@ -764,7 +764,7 @@ async function loadDashboard() {
     const lastWb   = wbStored ? (JSON.parse(wbStored).score || null) : null;
 
     // Render with placeholder streaks now; re-render after streaks load
-    const initialScore = computeEngagementScore(m, {}, lastWb);
+    const initialScore = computeEngagementScore(m, {}, lastWb, 0);
     renderEngagementScore(initialScore, initialScore.components);
 
     // Progress track totals
@@ -793,7 +793,7 @@ async function loadDashboard() {
     setStreak('sessions', 'checkins');
 
     // Re-render engagement score now we have real streak data
-    const finalScore = computeEngagementScore(m, streaks, lastWb);
+    const finalScore = computeEngagementScore(m, streaks, lastWb, daysActive30);
     renderEngagementScore(finalScore, finalScore.components);
 
     // Check-ins elite track
