@@ -695,8 +695,9 @@ async function loadDashboard() {
       const activityPts  = Math.min(12.5, (activityRaw / 30) * 12.5);
 
       // 2. CONSISTENCY — longest streak vs 30-day window (best available proxy)
-      const habitsStreak = (streakData['habits'] || {}).current || 0;
-      const consistencyPts = Math.min(12.5, (Math.min(habitsStreak, 30) / 30) * 12.5);
+      // CONSISTENCY — days active in last 30 as % of 20 target days (4-5 days/week)
+      // Uses days_active_30 from API. 20+ days = full marks, scales down from there.
+      const consistencyPts = Math.min(12.5, (daysActive30 / 20) * 12.5);
 
       // 3. VARIETY — how many of 4 session types have any activity logged
       const varMap = [
