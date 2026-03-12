@@ -109,7 +109,15 @@ main{position:relative;z-index:1;padding-top:64px}
 .score-bar-label{font-size:0.56rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);width:52px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .score-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
-.score-bar-val{font-size:0.62rem;font-weight:700;color:var(--muted);width:24px;text-align:right;flex-shrink:0}
+.score-bar-val{display:none}
+.score-bar-label{cursor:pointer;transition:color 0.2s}
+.score-bar-label:hover{color:var(--teal-xl)!important}
+.score-tip{display:none;margin-top:10px;padding:10px 12px;background:rgba(0,0,0,0.35);border:1px solid rgba(77,170,170,0.25);border-radius:10px;font-size:0.72rem;line-height:1.5;color:rgba(255,255,255,0.8);animation:fadeIn 0.2s ease}
+.score-tip.visible{display:block}
+.score-tip-title{font-weight:700;color:var(--teal-xl);margin-bottom:4px;font-size:0.74rem}
+.score-tip-close{float:right;cursor:pointer;color:var(--muted);font-size:0.9rem;line-height:1;margin-left:8px}
+.score-tip-close:hover{color:var(--white)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .wb-update-link{display:block;text-align:center;margin-top:10px;font-size:0.68rem;font-weight:500;color:var(--teal-lt);cursor:pointer;opacity:0.7;transition:opacity 0.2s;text-decoration:underline;text-underline-offset:2px}
 .wb-update-link:hover{opacity:1}
 
@@ -377,25 +385,31 @@ main{position:relative;z-index:1;padding-top:64px}
         <!-- Component breakdown bars -->
         <div class="hero-score-bars">
           <div class="score-bar-row">
-            <div class="score-bar-label">Activity</div>
+            <div class="score-bar-label" data-tip="activity">Activity ⓘ</div>
             <div class="score-bar-track"><div class="score-bar-fill" id="sb-activity" style="width:0%;background:#4DAAAA"></div></div>
             <div class="score-bar-val" id="sv-activity">—</div>
           </div>
           <div class="score-bar-row">
-            <div class="score-bar-label">Consistency</div>
+            <div class="score-bar-label" data-tip="consistency">Consistency ⓘ</div>
             <div class="score-bar-track"><div class="score-bar-fill" id="sb-consistency" style="width:0%;background:#7AC8C8"></div></div>
             <div class="score-bar-val" id="sv-consistency">—</div>
           </div>
           <div class="score-bar-row">
-            <div class="score-bar-label">Variety</div>
+            <div class="score-bar-label" data-tip="variety">Variety ⓘ</div>
             <div class="score-bar-track"><div class="score-bar-fill" id="sb-variety" style="width:0%;background:#E09B3D"></div></div>
             <div class="score-bar-val" id="sv-variety">—</div>
           </div>
           <div class="score-bar-row">
-            <div class="score-bar-label">Wellbeing</div>
+            <div class="score-bar-label" data-tip="wellbeing">Wellbeing ⓘ</div>
             <div class="score-bar-track"><div class="score-bar-fill" id="sb-wellbeing" style="width:0%;background:#9B7AE0"></div></div>
             <div class="score-bar-val" id="sv-wellbeing">—</div>
           </div>
+        </div>
+        <!-- Score tip panel -->
+        <div class="score-tip" id="score-tip">
+          <div class="score-tip-title" id="score-tip-title"></div>
+          <span class="score-tip-close" id="score-tip-close">✕</span>
+          <div id="score-tip-body"></div>
         </div>
         <span class="wb-update-link" id="wb-update-trigger">Update wellbeing score</span>
       </div>
@@ -604,7 +618,7 @@ main{position:relative;z-index:1;padding-top:64px}
 </main>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbwPr0NJgDuZn5TPdCO16fLgc_LGiIGOcosmslRnoJdj861E37sYTW7O0TJOVx8f1Hs/exec';
+const API = 'https://script.google.com/macros/s/AKfycbwJ9zjObfonNSrsFDZx5-aoYbzLs_KQSsxFItNADOtxqMIqdFLnZHxklGVBdSpZaiP0/exec';
 
 // ── GREETING ──────────────────────────────────────────────
 const hour = new Date().getHours();
@@ -714,8 +728,16 @@ async function loadDashboard() {
       // Uses days_active_30 from API. 20+ days = full marks, scales down from there.
       const consistencyPts = Math.min(12.5, (daysActive30 / 20) * 12.5);
 
-      // 3. VARIETY — how many of 4 session types have any activity logged
-      const varMap = [
+      // 3. VARIETY — how many of 4 session types logged in last 7 days
+      // Uses variety_7d object from API once Apps Script is updated.
+      // Falls back to all-time totals until then.
+      const v7 = data['variety_7d'] || null;
+      const varMap = v7 ? [
+        v7['workout']  ? 1 : 0,
+        v7['cardio']   ? 1 : 0,
+        v7['habits']   ? 1 : 0,
+        v7['sessions'] ? 1 : 0
+      ] : [
         parseInt(data['Workout'])  || 0,
         parseInt(data['Cardio'])   || 0,
         parseInt(data['Habits'])   || 0,
@@ -905,7 +927,7 @@ setInterval(updateCountdown, 1000);
 (function() {
   const STORAGE_KEY = 'vyve_wb_last';
   const SEVEN_DAYS  = 7 * 24 * 60 * 60 * 1000;
-  const WB_API      = 'https://script.google.com/macros/s/AKfycbwPr0NJgDuZn5TPdCO16fLgc_LGiIGOcosmslRnoJdj861E37sYTW7O0TJOVx8f1Hs/exec';
+  const WB_API      = 'https://script.google.com/macros/s/AKfycbwJ9zjObfonNSrsFDZx5-aoYbzLs_KQSsxFItNADOtxqMIqdFLnZHxklGVBdSpZaiP0/exec';
 
   const banner   = document.getElementById('wb-banner');
   const slider   = document.getElementById('wb-slider');
@@ -968,6 +990,44 @@ setInterval(updateCountdown, 1000);
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
     return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
   }
+
+  // Score component tip panel
+  const TIPS = {
+    activity: {
+      title: 'Activity — up to 12.5 pts',
+      body: 'Based on how recently you logged any activity. Logging something today gives you full marks. Try to check in with at least one session, workout, cardio, or habit every few days to keep this high.'
+    },
+    consistency: {
+      title: 'Consistency — up to 12.5 pts',
+      body: 'Counts how many distinct days you've been active in the last 30 days. Aim for 20+ days per month (around 5 days a week) for full marks. Little and often beats occasional big efforts.'
+    },
+    variety: {
+      title: 'Variety — up to 12.5 pts',
+      body: 'Rewards mixing up your activity in the last 7 days. Log across Sessions, Workouts, Cardio, and Daily Habits — the more types you use each week, the higher your score. Using all 4 this week earns the full 12.5 pts.'
+    },
+    wellbeing: {
+      title: 'Wellbeing — up to 12.5 pts',
+      body: 'Based on your last wellbeing check-in score (1–10). It's not about feeling perfect — it's about being honest. Update it weekly using the link below to keep it current.'
+    }
+  };
+
+  const tipPanel   = document.getElementById('score-tip');
+  const tipTitle   = document.getElementById('score-tip-title');
+  const tipBody    = document.getElementById('score-tip-body');
+  const tipClose   = document.getElementById('score-tip-close');
+
+  document.querySelectorAll('.score-bar-label[data-tip]').forEach(label => {
+    label.addEventListener('click', () => {
+      const key = label.getAttribute('data-tip');
+      const tip = TIPS[key];
+      if (!tip) return;
+      tipTitle.textContent = tip.title;
+      tipBody.textContent  = tip.body;
+      tipPanel.classList.add('visible');
+    });
+  });
+
+  tipClose.addEventListener('click', () => tipPanel.classList.remove('visible'));
 
   // Manual trigger — always opens banner regardless of last log date
   const trigger = document.getElementById('wb-update-trigger');
