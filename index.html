@@ -111,7 +111,7 @@ main{position:relative;z-index:1;padding-top:64px}
 .score-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
 .score-bar-val{display:none}
 .score-bar-label:hover{color:var(--teal-xl)}
-.score-tip{display:none;margin-top:10px;padding:10px 12px;background:rgba(0,0,0,0.35);border:1px solid rgba(77,170,170,0.25);border-radius:10px;font-size:0.72rem;line-height:1.5;color:rgba(255,255,255,0.8);animation:fadeIn 0.2s ease}
+.score-tip{display:none;margin-top:10px;padding:10px 12px;background:rgba(0,0,0,0.35);border:1px solid rgba(77,170,170,0.25);border-radius:10px;font-size:0.68rem;line-height:1.4;color:rgba(255,255,255,0.75);animation:fadeIn 0.2s ease;max-width:100%;word-wrap:break-word}
 .score-tip.visible{display:block}
 .score-tip-title{font-weight:700;color:var(--teal-xl);margin-bottom:4px;font-size:0.74rem}
 .score-tip-close{float:right;cursor:pointer;color:var(--muted);font-size:0.9rem;line-height:1;margin-left:8px}
@@ -1021,19 +1021,19 @@ setInterval(updateCountdown, 1000);
   const TIPS = {
     activity: {
       title: 'Activity — up to 12.5 pts',
-      body: 'Based on how recently you logged any activity. Logging something today gives you full marks. Try to check in with at least one session, workout, cardio, or habit every few days to keep this high.'
+      body: 'Based on how recently you logged. Today = full marks. Check in every few days to keep this high.'
     },
     consistency: {
       title: 'Consistency — up to 12.5 pts',
-      body: 'Counts how many distinct days you\'ve been active in the last 30 days. Aim for 20+ days per month (around 5 days a week) for full marks. Little and often beats occasional big efforts.'
+      body: 'Distinct active days in the last 30. Aim for 20+ days/month (5 days/week) for full marks.'
     },
     variety: {
       title: 'Variety — up to 12.5 pts',
-      body: 'Rewards mixing up your activity in the last 7 days. Log across Sessions, Workouts, Cardio, and Daily Habits — the more types you use each week, the higher your score. Using all 4 this week earns the full 12.5 pts.'
+      body: 'Mix of types logged in the last 7 days. Use all 4 (Sessions, Workouts, Cardio, Habits) for full marks.'
     },
     wellbeing: {
       title: 'Wellbeing — up to 12.5 pts',
-      body: 'Based on your last wellbeing check-in score (1–10). It\'s not about feeling perfect — it\'s about being honest. Update it weekly using the link below to keep it current.'
+      body: 'Your last check-in score (1–10). Update weekly using the link below to keep it current.'
     }
   };
 
