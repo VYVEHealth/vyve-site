@@ -697,19 +697,20 @@ function computeEngagementScore(data, streakData, lastWellbeing, daysActive30) {
   const consistencyPts = Math.min(12.5, (daysActive30 / 20) * 12.5);
 
   const v7 = data['variety_7d'] || null;
+  // Workout OR cardio counts as one "movement" type — cardio alone is hard to log
   const varMap = v7 ? [
-    v7['workout']  ? 1 : 0,
-    v7['cardio']   ? 1 : 0,
-    v7['habits']   ? 1 : 0,
-    v7['sessions'] ? 1 : 0
+    (v7['workout'] || v7['cardio']) ? 1 : 0,  // movement (workout or cardio)
+    v7['habits']   ? 1 : 0,                    // daily habits
+    v7['sessions'] ? 1 : 0                     // sessions watched
   ] : [
-    parseInt(data['Workout'])  || 0,
-    parseInt(data['Cardio'])   || 0,
+    ((parseInt(data['Workout']) || 0) + (parseInt(data['Cardio']) || 0)) > 0 ? 1 : 0,
     parseInt(data['Habits'])   || 0,
     parseInt(data['sessions_watched']) || 0
   ];
   const typesUsed  = varMap.filter(v => v > 0).length;
-  const varietyPts = [0, 4.5, 8, 11, 12.5][typesUsed] || 0;
+  // 3 types max now: movement, habits, sessions
+  // 1 type = 5pts, 2 types = 9pts, 3 types = 12.5pts
+  const varietyPts = [0, 5, 9, 12.5][typesUsed] || 0;
 
   const wbScore      = lastWellbeing || 5;
   const wellbeingPts = ((wbScore - 1) / 9) * 12.5;
@@ -1029,7 +1030,7 @@ setInterval(updateCountdown, 1000);
     },
     variety: {
       title: 'Variety — up to 12.5 pts',
-      body: 'Mix of types logged in the last 7 days. Use all 4 (Sessions, Workouts, Cardio, Habits) for full marks.'
+      body: 'Mix of types in the last 7 days. Log Sessions, Movement (Workout or Cardio), and Daily Habits for full marks.'
     },
     wellbeing: {
       title: 'Wellbeing — up to 12.5 pts',
